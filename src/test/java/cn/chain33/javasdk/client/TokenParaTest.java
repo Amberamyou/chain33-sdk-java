@@ -15,17 +15,21 @@ import cn.chain33.javasdk.model.rpcresult.QueryTransactionResult;
 import cn.chain33.javasdk.model.rpcresult.TokenResult;
 import cn.chain33.javasdk.utils.TransactionUtil;
 
-public class TokenTest {
+
+public class TokenParaTest {
 
 	// json/rpc connection
-	RpcClient client = new RpcClient("192.168.0.105", 8801);
+	RpcClient client = new RpcClient("localhost", 8801);
 
 	// 钱包密码
 	private static String passwd = "123456";
 	
 	// token symbol
 	// 重跑的话，每次symbol都要改下名，目前symbol只支持大写字母
-	private static String symbol = "SYCOINP";
+	private static String symbol = "SYCOINM";
+	
+	// 代扣手续费地址
+	private final static String payAddress = "1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs";
 
 	// 用户地址
 	private static String userAddress;
@@ -36,7 +40,7 @@ public class TokenTest {
 
 	public static void main(String[] args) throws Exception {
 
-		TokenTest tokenTest = new TokenTest();
+		TokenParaTest tokenTest = new TokenParaTest();
 
 		// 创建seed,解锁钱包
 		BooleanResult booleanResult = tokenTest.unlock(passwd);
@@ -127,20 +131,6 @@ public class TokenTest {
 		List<String> addressList = new ArrayList<String>();
 		addressList.add(userAddress);
 		tokenTest.getTokenBalance(addressList, "token", symbol);
-		
-		System.out.println("\r\n token转账============================" );
-		// 查询地址中的token余额
-		String unsignTransferTx = tokenTest.createRawTransaction("1NyDFjduMbYKZXMy14cqK3onZc5zLBdTc1", 100, true, false, symbol);
-		// 签名交易，是由token-finisher来签名
-		String signTxTransfer = tokenTest.signRawTx(userAddress, "", unsignTransferTx, "1h", 1);
-		String txhashTransfer = tokenTest.submitTransaction(signTxTransfer);
-		
-		// 根据交易hash查询交易
-		tokenTest.querytxWithoutContent(txhashTransfer);
-		
-		System.out.println("\r\n 查询转出者地址中的token余额============================" );
-		// 查询地址中的token余额
-		tokenTest.getTokenBalance(addressList, "token", symbol);	
 		
 	}
 
@@ -290,30 +280,6 @@ public class TokenTest {
 
 		try {
 			unsignTx = client.createRawTokenFinishTx(fee, symbol, ownerAddr);
-			return unsignTx;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	
-	/**
-	 * 
-	 * @param name
-	 * @param symbol
-	 * @param ownerAddr
-	 * @param total
-	 * @param price
-	 * @param fee
-	 * @return
-	 */
-	public String createRawTransaction(String to, long amount, boolean isToken,
-			boolean isWithdraw, String tokenSymbol) {
-		String unsignTx;
-
-		try {
-			unsignTx = client.createRawTransaction(to, amount, 0, "", isToken, isWithdraw, tokenSymbol, "");
 			return unsignTx;
 		} catch (Exception e) {
 			e.printStackTrace();
