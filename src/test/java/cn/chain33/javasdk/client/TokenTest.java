@@ -129,7 +129,7 @@ public class TokenTest {
 		tokenTest.getTokenBalance(addressList, "token", symbol);
 		
 		System.out.println("\r\n token转账============================" );
-		// 查询地址中的token余额
+		// 构建转账交易
 		String unsignTransferTx = tokenTest.createRawTransaction("1NyDFjduMbYKZXMy14cqK3onZc5zLBdTc1", 100, true, false, symbol);
 		// 签名交易，是由token-finisher来签名
 		String signTxTransfer = tokenTest.signRawTx(userAddress, "", unsignTransferTx, "1h", 1);
