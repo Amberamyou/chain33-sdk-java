@@ -1194,5 +1194,26 @@ public class RpcClient {
 		logger.error("RPC请求失败，错误信息：" + rep == null ? "" : rep.getError() + " , 请求参数：" + reqParam);
 		return null;
 	}
-
+	
+	/**
+	 * EVM合约只读调用（通过ABI）
+	 * 
+	 * @param requestParam
+	 * @return
+	 */
+	public JSONArray queryEVMByABI(JSONObject requestParam) {
+		RpcRequest postData = getPostData(RpcMethod.QUERY);
+		postData.addJsonParams(requestParam);
+		String requestResult = HttpUtil.httpPostBody(getUrl(), postData.toJsonString());
+		if (StringUtil.isNotEmpty(requestResult)) {
+			JSONObject parseObject = JSONObject.parseObject(requestResult);
+			if (messageValidate(parseObject))
+				return null;
+			JSONObject resultJson = parseObject.getJSONObject("result");
+			JSONArray resultArray = resultJson.getJSONArray("jsonData");
+			return resultArray;
+		}
+		return null;
+	}
+	
 }

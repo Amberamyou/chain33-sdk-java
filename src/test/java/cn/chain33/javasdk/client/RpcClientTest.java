@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSONObject;
+
 import cn.chain33.javasdk.client.RpcClient;
 import cn.chain33.javasdk.model.enums.SignType;
 import cn.chain33.javasdk.model.rpcresult.AccountAccResult;
@@ -330,5 +332,5 @@ public class RpcClientTest {
 		}
 
 	}
-
+	
 }
