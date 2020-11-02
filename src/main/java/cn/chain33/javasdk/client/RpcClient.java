@@ -356,6 +356,39 @@ public class RpcClient {
         }
         return null;
     }
+    
+    /**
+     * @description 获取某高度区块的 hash 值 GetBlockHash 该接口用于获取指定高度区间的区块头部信息
+     * @param height 区块高度
+     * @return 区块hash
+     */
+    public List getBlockByHash(String[] hash, boolean isdetail) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("hashes", hash);
+        jsonObject.put("disableDetail", isdetail);
+        RpcRequest postData = getPostData(RpcMethod.GET_BLOCK_BY_HASH);
+        postData.addJsonParams(jsonObject);
+        String result = HttpUtil.httpPostBody(getUrl(), postData.toJsonString());
+        if (StringUtil.isNotEmpty(result)) {
+            JSONObject parseObject = JSONObject.parseObject(result);
+            if (messageValidate(parseObject))
+                return null;
+            JSONObject resultJson = parseObject.getJSONObject("result");
+            JSONArray jsonArray = resultJson.getJSONArray("items");
+            if (jsonArray != null && jsonArray.size() != 0) {
+                List<Object> resultList = new ArrayList<>();
+                for (int i = 0; i < jsonArray.size(); i++) {
+                	JSONObject blockObject = (JSONObject)jsonArray.getJSONObject(i).get("block");
+                	JSONArray txArray = blockObject.getJSONArray("txs");
+                	for (int j = 0; j < txArray.size(); j++) {
+                		resultList.add(txArray.getJSONObject(j));
+                	}
+                }
+                return resultList;
+            }
+        }
+        return null;
+    }
 
     /**
      * @description 获取区块的详细信息

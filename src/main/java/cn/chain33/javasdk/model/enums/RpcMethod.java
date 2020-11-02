@@ -20,6 +20,8 @@ public enum RpcMethod {
 	
 	GET_BLOCK_HASH("Chain33.GetBlockHash"),
 	
+	GET_BLOCK_BY_HASH("Chain33.GetBlockByHashes"),
+	
 	GET_BLOCK_DETAIL("Chain33.GetBlockOverview"),
 	
 	GET_PEER_INFO("Chain33.GetPeerInfo"),
