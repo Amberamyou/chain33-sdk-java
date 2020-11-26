@@ -20,7 +20,7 @@ import cn.chain33.javasdk.utils.TransactionUtil;
 public class RpcClientTest {
 
 	// 平行链IP
-	String ip = "平行链IP";
+	String ip = "119.45.1.41";
 	// 平行链服务端口
 	int port = 8801;
     RpcClient client = new RpcClient(ip, port);
@@ -178,6 +178,20 @@ public class RpcClientTest {
         System.out.println(accountResult);
 
     }
+    
+    
+    /**
+     * 
+     * @description 导入私钥
+     *
+     */
+    @Test
+    public void dumpPrivKey() {
+        String accountResult;
+        accountResult = client.dumpPrivkey("16ui7XJ1VLM7YXcNhWwWsWS6CRC3ZA2sJ1");
+        System.out.println(accountResult);
+
+    }
 
     /**
      * @description 查询交易hash详情
@@ -290,7 +304,7 @@ public class RpcClientTest {
     @Test
     public void convertExecertoAddr() {
         String address;
-        address = client.convertExectoAddr("manage");
+        address = client.convertExectoAddr("storage");
         System.out.println(address);
     }
 

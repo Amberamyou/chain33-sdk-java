@@ -30,7 +30,7 @@ public class EvmUtil {
         EvmService.EVMContractAction evmContractAction = evmActionBuilder.build();
 
         String createTxWithoutSign = TransactionUtil.createTxWithoutSign(execer, evmContractAction.toByteArray(),
-                TransactionUtil.DEFAULT_FEE, 0);
+                TransactionUtil.PARA_CREATE_EVM_FEE, 0);
         byte[] fromHexString = HexUtil.fromHexString(createTxWithoutSign);
         TransactionProtoBuf.Transaction parseFrom = null;
         try {
@@ -98,7 +98,7 @@ public class EvmUtil {
         EvmService.EVMContractAction evmContractAction = evmActionBuilder.build();
 
         String createTxWithoutSign = TransactionUtil.createTxWithoutSign((prefix + contractName).getBytes(), evmContractAction.toByteArray(),
-                TransactionUtil.DEFAULT_FEE, 0);
+                TransactionUtil.PARA_CALL_EVM_FEE, 0);
         byte[] fromHexString = HexUtil.fromHexString(createTxWithoutSign);
         TransactionProtoBuf.Transaction parseFrom = null;
         try {
