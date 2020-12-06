@@ -22,7 +22,7 @@ public class RpcClientTest {
 	// 平行链IP
 	String ip = "119.45.1.41";
 	// 平行链服务端口
-	int port = 8801;
+	int port = 8901;
     RpcClient client = new RpcClient(ip, port);
 	
 
@@ -304,7 +304,7 @@ public class RpcClientTest {
     @Test
     public void convertExecertoAddr() {
         String address;
-        address = client.convertExectoAddr("storage");
+        address = client.convertExectoAddr("coins");
         System.out.println(address);
     }
 

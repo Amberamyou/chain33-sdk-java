@@ -1,0 +1,156 @@
+CASE_3.1.1 查询区块平均生成时间、总区块数   	======>测试程序：case3_1_1
+CASE_3.1.2 查询指定区块业务数量 	        	======>测试程序：case3_1_2
+CASE_3.1.3 查询指定区块业务明细	        	======>测试程序：case3_1_3
+CASE_3.1.4 点对点业务处理	        		======>测试程序：case3_1_4
+// 转小数个积分
+//    	./chain33-cli coins transfer -a 0.001 -n test -t 1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs
+//    	./chain33-cli  wallet sign -k 3847fb5a33fc6289351121af94d1e8780457d741996147ad9f25dbad98434136  -d  “上一步生成数据”
+//    	./chain33-cli  wallet send -d  “上一步生成数据”
+CASE_3.1.5 业务溯源				======>测试程序：case3_1_5
+
+CASE_3.2.1 账户注册				======>测试程序：case3_2_1， 这一步的生成的私钥，需要给下一步使用
+CASE_3.2.2 账户信息修改			======>测试程序：case3_2_2
+
+
+Case01_06 节点权限信息：
+发起一笔交易，成功后通./chain33-cli valnode info -t 高度 查看共识信息。
+其中有validators代表有哪几个节点进行的验证，proposer指的是哪个节点共识的这个区块。
+
+Case01_07：新增验证节点
+step1: 拷贝节点到服务器上
+scp chain33 chain33-cli chain33.toml sendtx peer0/genesis.json  root@2.20.105.231:/root/wuxi_fzm_test
+step2: 加权限： chmod u+x *
+step3: 执行： ./chain33-cli valnode init_keyfile -n 1 -t bls  生成该节点的私钥， 并且重命名将priv_validator_0.json 改成 priv_validator.json
+step4: 启动： nohup ./chain33 -f chain33.toml >> wuxi.out&
+step5: 等待一会，查看 ./chain33-cli net peer info 看节点的同步状态，这一步看的是p2p的网络同步
+step6: 查看./chain33-cli valnode nodes， 这一步查看到目前共识节点数目。
+
+Case01_08：新增共识节点
+step1:  首先确认目前共识节点数据，登录4台服务器中的任意一台，执行  ./chain33-cli valnode nodes  查看共识节点数目
+step2：  打开新节点的priv_validator.json文件，找到节点生成的公钥（pub_key）
+step3:  执行SDK中测试方法, NodeManager类中的createManager方法，创建一个可以授权共识节点的管理者（如果已经执行过，可以不重复调用）
+step4:  调用NodeTest类中的addConsensusNode方法，需要拿step2中的公钥，替换方法中的pubkey参数
+step5:  执行成功后，再在节点上执行  ./chain33-cli valnode nodes  查看共识节点数目
+
+Case01_09：删除共识节点
+step1:  首先确认目前共识节点数据，登录4台服务器中的任意一台，执行  ./chain33-cli valnode nodes  查看共识节点数目
+step2:  打开新节点的priv_validator.json文件，找到节点生成的公钥（pub_key）
+step3: 调用NodeTest类中的delConsensusNode方法，需要拿step2中的公钥，替换方法中的pubkey参数
+step4: 执行成功后，再在节点上执行  ./chain33-cli valnode nodes  查看共识节点数目
+
+Case01_10: 证书管理
+1. 拷贝证书服务到节点
+scp chain33-Ca/chain33.ca.toml chain33-Ca/chain33-ca  root@2.20.105.227:/root/wuxi_fzm_CA
+1. 启动CA服务器 nohup ./chain33-ca -f chain33.ca.toml >> ca.out&
+
+修改chain33.toml配置，打开开关
+enable=false
+cryptoPath="./test/authdir/crypto"
+signType="auth_sm2"
+2. mkdir -p test/authdir/crypto/
+3. 将./certdir/cacerts目录拷贝到节点配置文件配置的证书目录./test/authdir/crypto/
+3. 依次调用sdk接口certUserRegister注册用户；certEnroll生成用户证书；createTxWithCert创建证书交易
+4. 查询交易哈希是否执行成功
+5. 使用sdk接口createTxWithCert创建交易，证书填写任意随机字符，发送交易
+6. 查询交易哈希，执行失败
+
+Case01_11~Case01_13 调用ContractManager, 其中 销毁合约标志位："suicided": true,
+Case01_14 调用ContractManager中的存证合约，内容存证和隐私存证。
+
+Case01_15：查询区块信息
+./chain33-cli block last_header   -- 最高区块
+./chain33-cli block get -s 15 -e 15    --某个区块中的信息
+
+Case01_16 修改区块配置信息
+需要开启 sendtx ,然后修改看是否生效
+nohup /data/sendtx perf 172.27.0.2:8802 32 5000 0 0 >> send.out&
+
+Case02_01：无故障与无欺诈的共识
+调用SecurityTest中的createRightTransferTx和createWrongTransferTx
+
+Case02_02：故障数少于理论值的共识
+四个chain33中杀掉1个chain33进程，再调用SecurityTest中的createRightTransferTx
+
+Case02_03：故障数多于理论值的共识
+四个chain33中杀掉2个chain33进程，再调用SecurityTest中的createRightTransferTx, 共识状态被破坏，交易无法被打包。
+需要人工干预，重启所有的区块链节点，共识才可以恢复
+
+Case02_04:共识算法的可插拔/可切换  （这个可以放在最后测试）
+1.  scp -r chain33_raft root@2.20.105.227:/root/
+2. chmod -R u+x chain33_raft
+3. cd chain33_raft
+4. ./genconfig.sh "2.20.105.227,2.20.105.228,2.20.105.229"
+5. 将三个目录分别送到三台服务器上。
+
+Case02_05：转账情况下的双花攻击防范
+调用SecurityTest中的createDoubleransferTx交易，一笔成功，一笔提示：交易重复。
+
+Case02_06：消息篡改
+调用中SecurityTest中的createOverflowTransferTx
+
+Case02_07：节点防作弊
+step1: 拷贝错误的节点（注释校验签名的方法) , 上传到第一个节点。
+scp chain33PassAll  root@2.20.105.227:/root/wuxi_fzm_test
+step2: 杀掉原chain33进程，启动chain33PassAll
+step3: 连接上第一个节点，发送没有签名的交易。 篡改的节点可以接收交易，并生成交易hash.但是别的节点的日志中会报ErrSign，同时这笔交易不会被打包
+
+
+Case02_08：数据同步准确性
+每个节点上查看相同区块的信息
+./chain33-cli block headers -s 15 -e 15
+
+Case02_09：交易的完整性、防抵赖和不可篡改性
+step1: 执行内容存证。 同时获得交易hash.
+step2: 在所有节点上检查这笔交易是否存在，同时在4个节点上查询这笔交易所在的高度的状态哈希（stateHash），区块哈希（hash），默克尔根哈希（txHash）值是否一致，如果都一致，说明交易完整。  
+?	交易查询命令：./chain33-cli tx query_hash -s  存证交易返回的hash值（比如：0x6b0b09521bcb19376a2f4ffa689ad4f1e6480008d01ec3b613f8ad0720541ea4）
+?	区块查询命令: ./chain33-cli block headers -s 交易所在的区块高度 -e 交易所在的区块高度（从上一笔查询中可以获得）
+
+Case02_10：加密传输
+step1: 用tcpdump 在46656端口上抓包并保存结果，命令为 tcpdump tcp -i ens192 port 46656 -w dump.pcap -v
+step2: 发送一笔明文存证交易，待区块生成。
+step3: 下载包，并用wireshark打开
+scp root@2.20.105.227:/root/wuxi_fzm_test/dump.pcap /c/Users/fkeit/Desktop/wuxiPackage
+step4: 选择任意一条数据，右击选择追踪流->TCP流，可以看到数据均加密
+
+Case02_11：IP限制访问
+step1:  配置IP白名单功能，然后重启服务
+比如： whitelist=["127.0.0.1","2.20.105.228"] 
+
+Case03_01：节点运行稳定性
+上传sendtx工具，通过它来持续发送交易：  nohup /data/sendtx perf 172.27.0.2:8802 32 5000 0 0 >> send.out&
+
+Case03_02：新增节点的稳定性
+新增验证节点，交易的稳定性
+新增共识节点，交易的稳定性
+
+Case03_03：删除节点的稳定性
+关闭共识节点，查看交易的稳定性
+
+Case03_04：服务恢复机制
+持续发交易的过程中，关闭1个共识节点一段时间，然后再启动，查看是否能追上最大高度。
+关闭所有的节点，再全部启动，对比关闭前后高度是否一致。
+
+Case03_05：节点的监控性能
+step1：上传监控程序到区块链节点
+scp agent agentConf  root@2.20.105.227:/root/wuxi_fzm_test
+step2: 加权限
+chmod u+x agent agentConf 
+step3: pid写入文件
+ps -A |grep "chain33"| awk '{print $1}'                   
+echo 26031 > chain33Pid
+step4: 启动监控进程
+nohup ./agent agentConf  > agent_console.log 2>&1 &
+step5: 通过top查看性能数据
+
+Case03_06：节点的审计性能
+执行AuditTest用例
+
+Case04_01：交易吞吐量测试
+
+Case04_02: 交易并发测试
+
+Case05_01: 支持多层架构，业务分离
+1.  scp -r chain33_para root@2.20.105.227:/root/
+2.  加权限，并启动节点，查看同步状态
+./chain33-cli --rpc_laddr="http://localhost:8901" para is_sync
+

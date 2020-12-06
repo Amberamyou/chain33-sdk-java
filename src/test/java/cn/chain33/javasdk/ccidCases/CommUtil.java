@@ -11,6 +11,10 @@ import cn.chain33.javasdk.utils.TransactionUtil;
 
 public class CommUtil {
 	
+	public static final String ip = "119.45.1.41";
+	
+	public static final int port = 8801;
+	
 	
 	/**
      * 注册账户

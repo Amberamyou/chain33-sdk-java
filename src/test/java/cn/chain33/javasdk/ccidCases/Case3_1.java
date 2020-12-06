@@ -23,8 +23,7 @@ import cn.chain33.javasdk.utils.TransactionUtil;
  */
 public class Case3_1 {
 	
-    String ip = "119.45.1.41";
-    RpcClient client = new RpcClient(ip, 8801);
+    RpcClient client = new RpcClient(CommUtil.ip, CommUtil.port);
 
 	Account account = new Account();
 
@@ -48,7 +47,7 @@ public class Case3_1 {
     @Test
     public void case3_1_2() {
     	// 取区块信息
-    	List<BlocksResult> blockResultList = client.getBlocks(100l, 100l, true);
+    	List<BlocksResult> blockResultList = client.getBlocks(101l, 101l, true);
     	if (blockResultList.size() >= 0) {
     		System.out.println("区块中交易数目为： " + blockResultList.get(0).getBlock().getTxs().size());
     	} 
@@ -60,7 +59,7 @@ public class Case3_1 {
     @Test
     public void case3_1_3() {
     	// 取区块详情
-    	List<BlocksResult> blockResultList = client.getBlocks(100l, 100l, true);
+    	List<BlocksResult> blockResultList = client.getBlocks(101l, 101l, true);
     	if (blockResultList.size() >= 0) {
     		int txleng = blockResultList.get(0).getBlock().getTxs().size();
     		for (int i = 0; i < txleng; i++) {
@@ -94,12 +93,7 @@ public class Case3_1 {
     	// 转超过最大值的积分
     	to = "1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs";
     	transfer("转超过最大值的积分",100000001,to,fromprivateKey,fromAddress);
-    	
-    	// 转小数个积分,可以用命令行演示 TODO
-//    	./chain33-cli coins transfer -a 0.001 -n test -t 1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs
-//    	./chain33-cli  wallet sign -k CC38546E9E659D15E6B4893F0AB32A06D103931A8230B0BDE71459D2B27D6944 -d  “上一步生成数据”
-//    	./chain33-cli  wallet send -d  “上一步生成数据”
-		
+    			
 		
     }
     
@@ -111,7 +105,7 @@ public class Case3_1 {
     @Test
     public void case3_1_5() throws InterruptedException {
     	// 转指定区块的hash上一个区块的hash
-    	List<BlocksResult> blockResultList = client.getBlocks(5l, 5l, true);
+    	List<BlocksResult> blockResultList = client.getBlocks(800l, 800l, true);
     	String blockHash = null;
     	if (blockResultList.size() >= 0) {
     		blockHash = blockResultList.get(0).getBlock().getParentHash();
@@ -190,7 +184,5 @@ public class Case3_1 {
 		}
 		System.out.print("=========================" + note + " end ===============================\r\n\r\n");
     }
-    
-    
 
 }

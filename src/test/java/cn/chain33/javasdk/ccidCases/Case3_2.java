@@ -23,8 +23,7 @@ import cn.chain33.javasdk.utils.TransactionUtil;
 public class Case3_2 {
 	
 	
-    String ip = "119.45.1.41";
-    RpcClient client = new RpcClient(ip, 8801);
+    RpcClient client = new RpcClient(CommUtil.ip, CommUtil.port);
     
 	Account account = new Account();
 	
@@ -215,8 +214,6 @@ public class Case3_2 {
    			break;
    		}
    		System.out.println("=========================再次写数据上链结束===========================");
-   		
-   		
 
    	}
 	
@@ -319,12 +316,13 @@ public class Case3_2 {
 		String submitTransaction = client.submitTransaction(hexString);
 		System.out.println(submitTransaction);
 
+		Thread.sleep(3000);
 		// 一般1秒一个区块
 		QueryTransactionResult queryTransaction1;
 		for (int i = 0; i < 5; i++) {
 			queryTransaction1 = client.queryTransaction(submitTransaction);
 			if (null == queryTransaction1) {
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 			} else {
 				// 根据accountId查询账户信息
 				JSONObject resultJson = client.queryAccountById(accountId);
