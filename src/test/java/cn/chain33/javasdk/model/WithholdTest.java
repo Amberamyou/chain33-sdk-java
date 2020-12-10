@@ -40,7 +40,7 @@ public class WithholdTest {
 	}
 	
 	@Test
-	public void createWithholdTx() {
+	public void createWithholdTx() throws Exception {
 		String contentTx = contentStore(privateKey);
 		
         //create no balance 传入地址为空

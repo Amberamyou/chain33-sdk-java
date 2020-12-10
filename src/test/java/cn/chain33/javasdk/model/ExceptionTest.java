@@ -14,10 +14,10 @@ public class ExceptionTest {
     
 	/**
 	 * 双花测试
-	 * @throws InterruptedException
+	 * @throws Exception 
 	 */
 	@Test
-	public void doubleSpent() throws InterruptedException {
+	public void doubleSpent() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 
@@ -49,10 +49,10 @@ public class ExceptionTest {
 	
 	/**
 	 * 超出额度花费
-	 * @throws InterruptedException
+	 * @throws Exception 
 	 */
 	@Test
-	public void overflowSpent() throws InterruptedException {
+	public void overflowSpent() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 

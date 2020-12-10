@@ -15,12 +15,12 @@ public class AuditTest {
 	
 	/**
 	 * Case03_06：节点的审计性能
+	 * @throws Exception 
 	 * 
-	 * @throws InterruptedException
 	 * @description 本地构造主链主积分转账交易
 	 */
 	@Test
-	public void auditTxs() throws InterruptedException {
+	public void auditTxs() throws Exception {
 		
         long beginHeight = 1L;
 

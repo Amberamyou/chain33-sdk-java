@@ -38,7 +38,12 @@ public class RpcClientTest {
      */
     @Test
     public void checkStatus() {
-        System.out.println("is sync:" + client.isSync());
+        try {
+			System.out.println("is sync:" + client.isSync());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -49,8 +54,14 @@ public class RpcClientTest {
     @Test
     public void getWalletStatus() {
         WalletStatusResult walletStatus;
-        walletStatus = client.getWalletStatus();
-        System.out.println(walletStatus);
+        try {
+			walletStatus = client.getWalletStatus();
+	        System.out.println(walletStatus);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -60,8 +71,15 @@ public class RpcClientTest {
      */
     @Test
     public void lock() {
-        BooleanResult lock = client.lock();
-        System.out.println(lock);
+        BooleanResult lock;
+		try {
+			lock = client.lock();
+	        System.out.println(lock);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     @Test
@@ -70,8 +88,15 @@ public class RpcClientTest {
         String passwd = "fzm12345";
         boolean walletorticket = false;
         int timeout = 0;
-        BooleanResult unlock = client.unlock(passwd, walletorticket, timeout);
-        System.out.println(unlock);
+        BooleanResult unlock;
+		try {
+			unlock = client.unlock(passwd, walletorticket, timeout);
+	        System.out.println(unlock);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -81,8 +106,15 @@ public class RpcClientTest {
      */
     @Test
     public void seedGen() {
-        String seedGen = client.seedGen(1);
-        System.out.println(seedGen);
+        String seedGen;
+		try {
+			seedGen = client.seedGen(1);
+	        System.out.println(seedGen);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -94,8 +126,15 @@ public class RpcClientTest {
     public void seedSave() {
         String seedCn = "常 辉 觉 李 固 参 鲜 村 见 控 罩 戈 狠 亿 圣";
         String passwd = "fzm12345";
-        BooleanResult booleanResult = client.seedSave(seedCn, passwd);
-        System.out.println(booleanResult);
+        BooleanResult booleanResult;
+		try {
+			booleanResult = client.seedSave(seedCn, passwd);
+	        System.out.println(booleanResult);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -106,8 +145,15 @@ public class RpcClientTest {
     @Test
     public void seedGet() {
         String passwd = "fzm12345";
-        String seedGet = client.seedGet(passwd);
-        System.out.println(seedGet);
+        String seedGet;
+		try {
+			seedGet = client.seedGet(passwd);
+	        System.out.println(seedGet);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -117,8 +163,15 @@ public class RpcClientTest {
      */
     @Test
     public void newAccount() {
-        AccountResult newAccount = client.newAccount("secondAccount");
-        System.out.println(newAccount);
+        AccountResult newAccount;
+		try {
+			newAccount = client.newAccount("secondAccount");
+	        System.out.println(newAccount);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -129,10 +182,16 @@ public class RpcClientTest {
     @Test
     public void getAccounts() {
         List<AccountResult> accountList;
-        accountList = client.getAccountList();
-        for (AccountResult accountResult : accountList) {
-            System.out.println(accountResult);
-        }
+        try {
+			accountList = client.getAccountList();
+	        for (AccountResult accountResult : accountList) {
+	            System.out.println(accountResult);
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -146,10 +205,16 @@ public class RpcClientTest {
         list.add("address1");
         list.add("address2");
         List<AccountAccResult> queryBtyBalance;
-        queryBtyBalance = client.getCoinsBalance(list, "coins");
-        for (AccountAccResult accountAccResult : queryBtyBalance) {
-            System.out.println(accountAccResult);
-        }
+        try {
+			queryBtyBalance = client.getCoinsBalance(list, "coins");
+	        for (AccountAccResult accountAccResult : queryBtyBalance) {
+	            System.out.println(accountAccResult);
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
 
@@ -161,8 +226,14 @@ public class RpcClientTest {
     @Test
     public void setLabel() {
         AccountResult accountResult;
-        accountResult = client.setlabel("19Sq2BSqX4CKvPMjsDsdwdfFzjUmfxxxx", "first");
-        System.out.println(accountResult);
+        try {
+			accountResult = client.setlabel("19Sq2BSqX4CKvPMjsDsdwdfFzjUmfxxxx", "first");
+	        System.out.println(accountResult);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
     }
 
@@ -174,8 +245,14 @@ public class RpcClientTest {
     @Test
     public void importPrivKey() {
         String accountResult;
-        accountResult = client.importPrivatekey("privatekey", "labelname");
-        System.out.println(accountResult);
+        try {
+			accountResult = client.importPrivatekey("privatekey", "labelname");
+	        System.out.println(accountResult);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
     }
     
@@ -188,8 +265,14 @@ public class RpcClientTest {
     @Test
     public void dumpPrivKey() {
         String accountResult;
-        accountResult = client.dumpPrivkey("16ui7XJ1VLM7YXcNhWwWsWS6CRC3ZA2sJ1");
-        System.out.println(accountResult);
+        try {
+			accountResult = client.dumpPrivkey("16ui7XJ1VLM7YXcNhWwWsWS6CRC3ZA2sJ1");
+	        System.out.println(accountResult);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
     }
 
@@ -203,13 +286,17 @@ public class RpcClientTest {
     	// String hash = "0xe5ae58fab899781c72beaa92beb2661b4e70f8c8cbb8bbad61b0a191bc5ef6b7";
         String hash = "交易hash";
         QueryTransactionResult queryTransaction1;
-        queryTransaction1 = client.queryTransaction(hash);
-        System.out.println(queryTransaction1);
-        // 如果是上链内容,读取上链内容
-        String rawpayload = queryTransaction1.getTx().getRawpayload();
-        String content = new String(HexUtil.fromHexString(rawpayload));
-        System.out.println(content);
-
+        try {
+			queryTransaction1 = client.queryTransaction(hash);
+	        System.out.println(queryTransaction1);
+	        // 如果是上链内容,读取上链内容
+	        String rawpayload = queryTransaction1.getTx().getRawpayload();
+	        String content = new String(HexUtil.fromHexString(rawpayload));
+	        System.out.println(content);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -217,8 +304,14 @@ public class RpcClientTest {
      */
     @Test
     public void getBlockAverageTime() {
-    	int blockTime =  client.getBlockAverageTime();
-    	System.out.println("平均出块时间为： " + blockTime + " 秒");
+    	int blockTime;
+		try {
+			blockTime = client.getBlockAverageTime();
+	    	System.out.println("平均出块时间为： " + blockTime + " 秒");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 
@@ -230,10 +323,16 @@ public class RpcClientTest {
     @Test
     public void queryUserTokens() {
         List<TokenBalanceResult> queryAccountBalance;
-        queryAccountBalance = client.queryAccountBalance("12qyocayNF7Lv6C9qxxxxxx", "user.p.xxchain.coins");
-        for (TokenBalanceResult tokenBalanceResult : queryAccountBalance) {
-            System.out.println(tokenBalanceResult);
-        }
+        try {
+			queryAccountBalance = client.queryAccountBalance("12qyocayNF7Lv6C9qxxxxxx", "user.p.xxchain.coins");
+	        for (TokenBalanceResult tokenBalanceResult : queryAccountBalance) {
+	            System.out.println(tokenBalanceResult);
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -246,10 +345,16 @@ public class RpcClientTest {
         List<String> addrList = new ArrayList<>();
         addrList.add("XXXXXXXXXXXX");
         List<AccountAccResult> tokenBalance;
-        tokenBalance = client.getTokenBalance(addrList, "user.p.xxchain.token", "tokenSymbol");
-        for (AccountAccResult accountAccResult : tokenBalance) {
-            System.out.println(accountAccResult);
-        }
+        try {
+			tokenBalance = client.getTokenBalance(addrList, "user.p.xxchain.token", "tokenSymbol");
+	        for (AccountAccResult accountAccResult : tokenBalance) {
+	            System.out.println(accountAccResult);
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
     }
 
@@ -261,13 +366,19 @@ public class RpcClientTest {
     @Test
     public void getTxByAddr() {
         List<TxResult> txByAddr;
-        txByAddr = client.getTxByAddr("address", 0, 10, 0, -1L, 0);
-        for (TxResult txResult : txByAddr) {
-            System.out.println(txResult);
-        }
-        for (TxResult txResult : txByAddr) {
-            System.out.println(client.queryTransaction(txResult.getHash()));
-        }
+        try {
+			txByAddr = client.getTxByAddr("address", 0, 10, 0, -1L, 0);
+	        for (TxResult txResult : txByAddr) {
+	            System.out.println(txResult);
+	        }
+	        for (TxResult txResult : txByAddr) {
+				System.out.println(client.queryTransaction(txResult.getHash()));
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -278,12 +389,19 @@ public class RpcClientTest {
     public void preCreateToken() {
         long total = (long) (1000 * 1e8);
         // 调用节点接口预创建token 返回hash
-        String createRawTokenPreCreateTx = client.createRawTokenPreCreateTx("logan coin1", "LGS",
-                "logan create the coin", "1Af1JWXYVJwMrSkC7QpG4KVckNKgXmnhm4", total, 0,0);
-        // 签名
-        String signRawTx = client.signRawTx("1Af1JWXYVJwMrSkC7QpG4KVckNKgXmnhm4", "0x65622cbb675a62ec6de652811dc649286652b75c80850ccd7bb30ffb053c5af9", createRawTokenPreCreateTx, "300", 0);
-        String submitTransaction =  client.submitTransaction(signRawTx);
-        System.out.println(submitTransaction);
+        String createRawTokenPreCreateTx;
+		try {
+			createRawTokenPreCreateTx = client.createRawTokenPreCreateTx("logan coin1", "LGS",
+			        "logan create the coin", "1Af1JWXYVJwMrSkC7QpG4KVckNKgXmnhm4", total, 0,0);
+	        // 签名
+	        String signRawTx = client.signRawTx("1Af1JWXYVJwMrSkC7QpG4KVckNKgXmnhm4", "0x65622cbb675a62ec6de652811dc649286652b75c80850ccd7bb30ffb053c5af9", createRawTokenPreCreateTx, "300", 0);
+	        String submitTransaction =  client.submitTransaction(signRawTx);
+	        System.out.println(submitTransaction);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -292,10 +410,17 @@ public class RpcClientTest {
      */
     @Test
     public void createTokenFinish() {
-        String createRawTokenFinishTx = client.createRawTokenFinishTx((long) 1e8, "LGS", "address");
-        String signRawTx = client.signRawTx("address", "addressPrivateKey", createRawTokenFinishTx, 300 + "", 0);
-        String submitTransaction = client.submitTransaction(signRawTx);
-        System.out.println(submitTransaction);
+        String createRawTokenFinishTx;
+		try {
+			createRawTokenFinishTx = client.createRawTokenFinishTx((long) 1e8, "LGS", "address");
+	        String signRawTx = client.signRawTx("address", "addressPrivateKey", createRawTokenFinishTx, 300 + "", 0);
+	        String submitTransaction = client.submitTransaction(signRawTx);
+	        System.out.println(submitTransaction);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -304,8 +429,14 @@ public class RpcClientTest {
     @Test
     public void convertExecertoAddr() {
         String address;
-        address = client.convertExectoAddr("coins");
-        System.out.println(address);
+        try {
+			address = client.convertExectoAddr("coins");
+	        System.out.println(address);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
 
@@ -317,10 +448,16 @@ public class RpcClientTest {
         String transactionHash = TransactionUtil.createTx(withHoldPrivateKey, "user.p.xxchain.coins", "content",
                 TransactionUtil.DEFAULT_FEE);
         // 创建代扣交易 创建交易上链需要消耗手续费
-        String noBalanceHash = client.createNoBalanceTx(transactionHash, withHoldAddress);
-        String signedTxHash = client.signRawTx("user address", null, noBalanceHash, "1h", 2);
-        String withHoldTx = client.submitTransaction(signedTxHash);
-        System.out.println(withHoldTx);
+        String noBalanceHash;
+		try {
+			noBalanceHash = client.createNoBalanceTx(transactionHash, withHoldAddress);
+	        String signedTxHash = client.signRawTx("user address", null, noBalanceHash, "1h", 2);
+	        String withHoldTx = client.submitTransaction(signedTxHash);
+	        System.out.println(withHoldTx);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     
@@ -345,10 +482,17 @@ public class RpcClientTest {
         // 执行器名称，平行链主代币为平行链名称+coins(平行链对应配置文件中的title项)
         String execer = "user.p.xxchain.coins";
         // 平行链转账时，实际to的地址填在payload中，外层的to地址对应的是合约的地址
-        String contranctAddress = client.convertExectoAddr(execer);
-        String createTransferTx = TransactionUtil.createTransferTx(fromAddressPriveteKey, contranctAddress, execer, payload);
-        String txHash = client.submitTransaction(createTransferTx);
-        System.out.println(txHash);
+        String contranctAddress;
+		try {
+			contranctAddress = client.convertExectoAddr(execer);
+	        String createTransferTx = TransactionUtil.createTransferTx(fromAddressPriveteKey, contranctAddress, execer, payload);
+	        String txHash = client.submitTransaction(createTransferTx);
+	        System.out.println(txHash);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -363,15 +507,21 @@ public class RpcClientTest {
         Long tranAmount = amount * 100000000L;
         Boolean isToken = false;// false为主代币转账，tokenSymbol不传，为""，true为token转账
         // 通过节点创建转账交易
-        String rawTx = client.createRawTransaction(toAddr, tranAmount, TransactionUtil.DEFAULT_FEE, "", isToken, false,
-                tokenSymBol, null);
-        // 通过节点创建代扣交易
-        String createNoBalanceTx = client.createNoBalanceTx(rawTx, withHoldAddress);
-        // 通过节点签名
-        String signRawTx = client.signRawTx(fromAddr, null, createNoBalanceTx, "1h", 2);
-        // 发送交易
-        String signedTxHex = client.submitTransaction(signRawTx);
-        System.out.println(signedTxHex);
+        String rawTx;
+		try {
+			rawTx = client.createRawTransaction(toAddr, tranAmount, TransactionUtil.DEFAULT_FEE, "", isToken, false,
+			        tokenSymBol, null);
+	        // 通过节点创建代扣交易
+	        String createNoBalanceTx = client.createNoBalanceTx(rawTx, withHoldAddress);
+	        // 通过节点签名
+	        String signRawTx = client.signRawTx(fromAddr, null, createNoBalanceTx, "1h", 2);
+	        // 发送交易
+	        String signedTxHex = client.submitTransaction(signRawTx);
+	        System.out.println(signedTxHex);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
 
@@ -393,30 +543,37 @@ public class RpcClientTest {
 	   String symbol = "COINSDEVX";
 	   String owner = "1EHWKLEixvfanTHWmnF7mYMuDDXTCorZd7";
 	   String privateKey = "55637b77b193f2c60c6c3f95d8a5d3a98d15e2d42bf0aeae8e975fc54035e2f4";
-	   String createRawTokenRevokeTx = client.CreateRawTokenRevokeTx(symbol, owner);
-	   String signRawTx = client.signRawTx(privateKey, null, createRawTokenRevokeTx, "1h", 0);
-	   String submitTransaction = client.submitTransaction(signRawTx);
-	   System.out.println(submitTransaction);
+	   String createRawTokenRevokeTx;
+	try {
+		createRawTokenRevokeTx = client.CreateRawTokenRevokeTx(symbol, owner);
+		   String signRawTx = client.signRawTx(privateKey, null, createRawTokenRevokeTx, "1h", 0);
+		   String submitTransaction = client.submitTransaction(signRawTx);
+		   System.out.println(submitTransaction);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
 	}
 	
-	/**
-	 * 接口QPS测试(单线程)
-	 */
-	@Test
-	public void qpsTest() {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
-    	System.out.println(df.format(System.currentTimeMillis())); 
-		
-        String hash = "0x441e91ff13f28fe104d66db4308ab12652868eaf8a0011dec2059a4be98bdfb3";
-        for (int i = 0; i <= 50000; i++) {
-
-            client.queryTx(hash);
-           // System.out.println(queryTransaction1);
-            if (i%1000 == 0) {
-            	System.out.println(i);
-            	System.out.println(df.format(System.currentTimeMillis())); 
-            }
-        }
-        
-	}
+//	/**
+//	 * 接口QPS测试(单线程)
+//	 */
+//	@Test
+//	public void qpsTest() {
+//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
+//    	System.out.println(df.format(System.currentTimeMillis())); 
+//		
+//        String hash = "0x441e91ff13f28fe104d66db4308ab12652868eaf8a0011dec2059a4be98bdfb3";
+//        for (int i = 0; i <= 50000; i++) {
+//
+//            client.queryTx(hash);
+//           // System.out.println(queryTransaction1);
+//            if (i%1000 == 0) {
+//            	System.out.println(i);
+//            	System.out.println(df.format(System.currentTimeMillis())); 
+//            }
+//        }
+//        
+//	}
 }

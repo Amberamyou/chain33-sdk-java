@@ -1,7 +1,5 @@
 package cn.chain33.javasdk.model;
 
-import java.io.UnsupportedEncodingException;
-
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSONObject;
@@ -28,9 +26,10 @@ public class StorageTest {
     
 	/**
 	 * 内容存证
+	 * @throws Exception 
 	 */
 	@Test
-	public void contentStore() {
+	public void contentStore() throws Exception {
 		// 存证智能合约的名称
 		String execer = "storage";
 		// 签名用的私钥
@@ -48,9 +47,10 @@ public class StorageTest {
 
 	/**
 	 * 哈希存证模型，推荐使用sha256哈希，限制256位得摘要值
+	 * @throws Exception 
 	 */
 	@Test
-	public void hashStore() {
+	public void hashStore() throws Exception {
 		// 存证智能合约的名称
 		String execer = "storage";
 		// 签名用的私钥
@@ -64,9 +64,10 @@ public class StorageTest {
 	
     /**
      * 链接存证模型
+     * @throws Exception 
      */
 	@Test
-	public void hashAndLinkStore() {
+	public void hashAndLinkStore() throws Exception {
 		// 存证智能合约的名称
 		String execer = "storage";
 		// 签名用的私钥
@@ -111,10 +112,10 @@ public class StorageTest {
 	
 	/**
 	 * 根据hash查询存证结果
-	 * @throws UnsupportedEncodingException 
+	 * @throws Exception 
 	 */
 	@Test
-	public void queryStorage() throws UnsupportedEncodingException {
+	public void queryStorage() throws Exception {
 		// contentStore
 		JSONObject resultJson = client.queryStorage("0x401f043696500030d49a511505b5c703e943382082b1154880e753acacb3d443");
 		

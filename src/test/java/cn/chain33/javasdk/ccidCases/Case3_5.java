@@ -20,24 +20,22 @@ import cn.chain33.javasdk.utils.TransactionUtil;
 
 public class Case3_5 {
 	
-    String ip = "119.45.1.41";
-    RpcClient client = new RpcClient(ip, 8801);
+	RpcClient client = new RpcClient(CommUtil.ip, CommUtil.port);
 
 	Account account = new Account();
 	
 	/**
 	 * 3.5.1 智能合约执行结果
 	 * 3.5.2 查询支持
-	 * @throws InterruptedException 
+	 * @throws Exception 
 	 */
 	@Test
-	public void Case3_5_1() throws InterruptedException {
+	public void Case3_5_1() throws Exception {
 		
     	// 转出地址对应的私钥
     	String fromprivateKey = "CC38546E9E659D15E6B4893F0AB32A06D103931A8230B0BDE71459D2B27D6944";
     	String fromAddress = "14KEKbYtKKQm4wMthSK9J4La4nAiidGozt";
     	
-    	// 转向帐号非法（自己转自己）
     	String to = null;
     	List<String> addressList = new ArrayList<String>();
     	for (int i = 0; i < 10; i++) {
@@ -60,10 +58,10 @@ public class Case3_5 {
 	
 	/**
 	 * 3.5.3 智能合约更新
-	 * @throws InterruptedException
+	 * @throws Exception 
 	 */
 	 @Test
-	 public void Case3_5_3() throws InterruptedException {
+	 public void Case3_5_3() throws Exception {
     	
     	// 部署合约对应的私钥
         String privateKey = "CC38546E9E659D15E6B4893F0AB32A06D103931A8230B0BDE71459D2B27D6944";
@@ -82,7 +80,7 @@ public class Case3_5 {
         submitTransaction = client.submitTransaction(txEncode);
         String contractName = submitTransaction;
         System.out.println(submitTransaction);
-        Thread.sleep(10000);
+        Thread.sleep(5000);
         
         // 合约名称
         String contractN = "user.evm." + contractName;
@@ -93,7 +91,7 @@ public class Case3_5 {
         txEncode = EvmUtil.callEvmContract("".getBytes(),"", 0, "awardItem(\"14KEKbYtKKQm4wMthSK9J4La4nAiidGozt\",\"{\"ITEM\":\"picture1\",\"price\":\"10000\",\"author\",\"Andy\"}\")", contractName, privateKey);
         submitTransaction = client.submitTransaction(txEncode);
         System.out.println(submitTransaction);
-        Thread.sleep(10000);
+        Thread.sleep(5000);
         
         // 查询
         JSONArray abiResult = client.queryEVMABIResult(execAddress, contractN, "symbol()");
@@ -145,10 +143,10 @@ public class Case3_5 {
 	 
 	/**
 	 * 3.5.4合约冻结或终止
-	 * @throws InterruptedException
+	 * @throws Exception 
 	 */
 	 @Test
-	 public void Case3_5_4() throws InterruptedException {
+	 public void Case3_5_4() throws Exception {
 		 
 	        String privateKey = "0x85bf7aa29436bb186cac45ecd8ea9e63e56c5817e127ebb5e99cd5a9cbfe0f23";
 
@@ -157,28 +155,32 @@ public class Case3_5 {
 	        String abi = "[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"get\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"x\",\"type\":\"uint256\"}],\"name\":\"set\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
 
 	        // 部署合约
+	        System.out.println("===============================部署合约==========================================");
 	        String txEncode = EvmUtil.createEvmContract(HexUtil.fromHexString(code), "", "evm-sdk-test", abi, privateKey);
 	        String submitTransaction = client.submitTransaction(txEncode);
 	        String contractName = submitTransaction;
-	        System.out.println(submitTransaction);
+	        System.out.println("部署合约hash:" + submitTransaction);
 	        Thread.sleep(3000);
 
 	        // 调用合约
+	        System.out.println("===============================调用合约==========================================");
 	        txEncode = EvmUtil.callEvmContract("".getBytes(),"", 0, "get()", contractName, privateKey);
 	        submitTransaction = client.submitTransaction(txEncode);
-	        System.out.println(submitTransaction);
+	        System.out.println("调用合约hash:" + submitTransaction);
 	        Thread.sleep(3000);
 
 	        // 销毁合约
+	        System.out.println("===============================销毁合约==========================================");
 	        txEncode = EvmUtil.destroyEvmContract(contractName, privateKey);
 	        submitTransaction = client.submitTransaction(txEncode);
-	        System.out.println(submitTransaction);
+	        System.out.println("销毁合约hash:" + submitTransaction);
 	        Thread.sleep(3000);
 
 	        // 再次调用合约
+	        System.out.println("===============================再次调用合约==========================================");
 	        txEncode = EvmUtil.callEvmContract("".getBytes(),"", 0, "get()", contractName, privateKey);
 	        submitTransaction = client.submitTransaction(txEncode);
-	        System.out.println(submitTransaction);
+	        System.out.println("再次调用合约hash:" + submitTransaction);
 		 
 	 }
 	 
@@ -190,9 +192,9 @@ public class Case3_5 {
      * @param to
      * @param privateKey
      * @param fromAddress
-     * @throws InterruptedException
+	 * @throws Exception 
      */
-    private void transfer(String note, long amount, String to, String privateKey, String fromAddress) throws InterruptedException {
+    private void transfer(String note, long amount, String to, String privateKey, String fromAddress) throws Exception {
     	
     	TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
     	// 转账说明

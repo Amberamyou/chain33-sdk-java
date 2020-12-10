@@ -25,11 +25,11 @@ public class SecurityTest {
 	
 	/**
 	 * Case02_01_step1：无故障与无欺诈的共识  发起一笔合法的转账交易
-	 * @throws InterruptedException
+	 * @throws Exception 
 	 * @description 本地构造主链主积分转账交易
 	 */
 	@Test
-	public void createRightTransferTx() throws InterruptedException {
+	public void createRightTransferTx() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 
@@ -80,11 +80,11 @@ public class SecurityTest {
 	
 	/**
 	 * Case02_01_step2: 发起一笔非法的转账交易（from地址==to地址）
-	 * @throws InterruptedException
+	 * @throws Exception 
 	 * @description 本地构造主链主积分转账交易
 	 */
 	@Test
-	public void createWrongTransferTx() throws InterruptedException {
+	public void createWrongTransferTx() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 
@@ -134,12 +134,12 @@ public class SecurityTest {
 	
 	/**
 	 * Case02_05：转账情况下的双花攻击防范
+	 * @throws Exception 
 	 * 
-	 * @throws InterruptedException
 	 * @description 本地构造主链主积分转账交易
 	 */
 	@Test
-	public void createDoubleransferTx() throws InterruptedException {
+	public void createDoubleransferTx() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 
@@ -193,12 +193,12 @@ public class SecurityTest {
 	
 	/**
 	 * Case02_06：消息篡改
+	 * @throws Exception 
 	 * 
-	 * @throws InterruptedException
 	 * @description 本地构造主链主积分转账交易
 	 */
 	@Test
-	public void createOverflowTransferTx() throws InterruptedException {
+	public void createOverflowTransferTx() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 		TransferBalanceRequest transferBalanceRequest1 = new TransferBalanceRequest();
@@ -257,12 +257,12 @@ public class SecurityTest {
 	
 	/**
 	 * Case02_06：消息篡改
+	 * @throws Exception 
 	 * 
-	 * @throws InterruptedException
 	 * @description 本地构造主链主积分转账交易
 	 */
 	@Test
-	public void createNoSignTx() throws InterruptedException {
+	public void createNoSignTx() throws Exception {
 
 
 		// 未签名交易

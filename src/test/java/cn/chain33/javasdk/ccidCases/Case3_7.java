@@ -11,9 +11,10 @@ import cn.chain33.javasdk.utils.TransactionUtil;
 
 public class Case3_7 {
 
-    String ip = "119.45.1.41";
-    RpcClient client = new RpcClient(ip, 8801);
+	RpcClient client = new RpcClient(CommUtil.ip, CommUtil.port);
 
+	// 链超级管理员地址
+	String supermanager = "CC38546E9E659D15E6B4893F0AB32A06D103931A8230B0BDE71459D2B27D6944"; 
 	
     /**
      * Step1:创建管理员，用于授权新节点的加入
@@ -33,10 +34,8 @@ public class Case3_7 {
     	String value = "1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs";
     	// 管理合约:配置操作符
     	String op = "add";
-    	// 当前链管理员私钥（superManager）
-    	String privateKey = "3990969DF92A5914F7B71EEB9A4E58D6E255F32BF042FEA5318FC8B3D50EE6E8";
     	// 构造并签名交易,使用链的管理员（superManager）进行签名， 
-    	String txEncode = TransactionUtil.createManage(key, value, op, privateKey, execerName);
+    	String txEncode = TransactionUtil.createManage(key, value, op, supermanager, execerName);
     	// 发送交易
     	String hash = client.submitTransaction(txEncode);
     	System.out.print(hash);
@@ -48,8 +47,8 @@ public class Case3_7 {
 	 * @throws Exception
 	 */
 	@Test
-	public void addConsensusNode() throws Exception {
-		String pubkey = "A4C6988F091892E025A1916B52D52F5045F7C94C71566B36000ACDA6E13AEEE3C0DFAD651B69461E2D64FE59DCBFE24B";
+	public void Case3_7_1() throws Exception {
+		String pubkey = "AA6A60EC493126ED4D56DA5010A993481C9FABEB27BA1A7901915B212C3BD75390030F4CBB026A377C8AA008086D8EDE";
 		// 投票权，范围从【1~~全网总power/3】
 		int power = 10;
 		
@@ -76,8 +75,8 @@ public class Case3_7 {
 	 * @throws Exception
 	 */
 	@Test
-	public void delConsensusNode() throws Exception {
-		String pubkey = "A4C6988F091892E025A1916B52D52F5045F7C94C71566B36000ACDA6E13AEEE3C0DFAD651B69461E2D64FE59DCBFE24B";
+	public void Case3_7_2() throws Exception {
+		String pubkey = "AA6A60EC493126ED4D56DA5010A993481C9FABEB27BA1A7901915B212C3BD75390030F4CBB026A377C8AA008086D8EDE";
 		// 投票权设置成0，代表剔除出共识节点
 		int power = 0;
 		

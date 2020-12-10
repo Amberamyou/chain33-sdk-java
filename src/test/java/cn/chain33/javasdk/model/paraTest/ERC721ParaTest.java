@@ -21,10 +21,10 @@ public class ERC721ParaTest {
     
 	 /**
      * 平行链上部署和调用ERC721合约
-     * @throws InterruptedException
+	 * @throws Exception 
      */
     @Test
-    public void testEvmContract() throws InterruptedException {
+    public void testEvmContract() throws Exception {
     	
     	// 部署合约对应的私钥
         String privateKey = "部署合约对应的私钥匙";

@@ -29,13 +29,13 @@ public class CoinsTransParaTest {
 	
     /**
      * 
-     * @throws InterruptedException 
+     * @throws Exception 
      * @description 本地签名代扣交易组，调用createNoBlance之后再将返回的数据解析,签名，发送交易
      * 代扣交易主要用在平行链的场合，主链上的交易不需要关注此实现
      *
      */
     @Test
-    public void transferCoins() throws InterruptedException {
+    public void transferCoins() throws Exception {
     	// 转账说明
         String note = "转账说明";
         // 主代币则为"",其他为token名
@@ -81,11 +81,12 @@ public class CoinsTransParaTest {
     
     /**
      * 
+     * @throws Exception 
      * @description 查询coins余额
      *
      */
     @Test
-    public void getTokenBalace() {
+    public void getTokenBalace() throws Exception {
         // 执行器名称
         String execer = paraName + "coins";
         

@@ -11,7 +11,9 @@ import cn.chain33.javasdk.utils.TransactionUtil;
 
 public class CommUtil {
 	
-	public static final String ip = "119.45.1.41";
+	public static final String ip = "132.232.76.48";
+	
+//	public static final String ip = "119.45.1.41";
 	
 	public static final int port = 8801;
 	
@@ -36,35 +38,33 @@ public class CommUtil {
 		TransactionProtoBuf.Transaction signProbuf = TransactionUtil.signProbuf(parseFrom, privateKey);
 		String hexString = HexUtil.toHexString(signProbuf.toByteArray());
 
-		String submitTransaction = client.submitTransaction(hexString);
-		System.out.println(submitTransaction);
-
-		// 一般1秒一个区块
-		QueryTransactionResult queryTransaction1;
-		for (int i = 0; i < 5; i++) {
-			queryTransaction1 = client.queryTransaction(submitTransaction);
-			if (null == queryTransaction1) {
-				Thread.sleep(1000);
-			} else {
-				// 根据accountId查询账户信息
-				JSONObject resultJson = client.queryAccountById(accountId);
-				
-		    	System.out.println("账户ID:" + resultJson.getString("accountID"));
-		    	System.out.println("过期时间:" + resultJson.getString("expireTime"));
-		    	System.out.println("创建时间:" + resultJson.getString("createTime"));
-		    	// 账户状态 0 正常， 1表示冻结, 2表示锁定 3,过期注销
-		    	System.out.println("账户状态:" + resultJson.getString("status"));
-		    	//等级权限 0普通,后面根据业务需要可以自定义，有管理员授予不同的权限
-		    	System.out.println("等级权限:" + resultJson.getString("level"));
-		    	// 账户地址
-		    	System.out.println("地址:" + resultJson.getString("addr"));
-		    	
-		    	// 根据状态查账户信息
-		    	String status = "0";
-		    	resultJson = client.queryAccountByStatus(status);
-		    	System.out.println(resultJson);
-				break;
+		String submitTransaction;
+		try {
+			submitTransaction = client.submitTransaction(hexString);
+			System.out.println("注册用户hash:"  + submitTransaction);
+			
+			Thread.sleep(3000);
+			// 一般1秒一个区块
+			QueryTransactionResult queryTransaction1;
+			for (int i = 0; i < 5; i++) {
+				queryTransaction1 = client.queryTransaction(submitTransaction);
+				if (null == queryTransaction1) {
+					Thread.sleep(3000);
+				} else {
+					// 根据accountId查询账户信息
+					JSONObject resultJson = client.queryAccountById(accountId);
+					
+			    	System.out.println("账户ID:" + resultJson.getString("accountID")+ ", 过期时间:" + resultJson.getString("expireTime") + ", 创建时间:" + resultJson.getString("createTime") + ", 账户状态:" + resultJson.getString("status") + ", 等级权限:" + resultJson.getString("level") + "地址:" + resultJson.getString("addr"));
+			    	
+//			    	// 根据状态查账户信息
+//			    	String status = "0";
+//			    	resultJson = client.queryAccountByStatus(status);
+//			    	System.out.println(resultJson);
+					break;
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("RPC ERROR:" + e.getMessage());
 		}
     }
     
@@ -107,15 +107,7 @@ public class CommUtil {
 		// 根据accountId查询账户信息
 		JSONObject resultJson = client.queryAccountById(accountIds[0]);
 		
-    	System.out.println("账户ID:" + resultJson.getString("accountID"));
-    	System.out.println("过期时间:" + resultJson.getString("expireTime"));
-    	System.out.println("创建时间:" + resultJson.getString("createTime"));
-    	// 账户状态 0 正常， 1表示冻结, 2表示锁定 3,过期注销
-    	System.out.println("账户状态:" + resultJson.getString("status"));
-    	//等级权限 0普通,后面根据业务需要可以自定义，有管理员授予不同的权限
-    	System.out.println("等级权限:" + resultJson.getString("level"));
-    	// 账户地址
-    	System.out.println("地址:" + resultJson.getString("addr"));
+		System.out.println("账户ID:" + resultJson.getString("accountID")+ ", 过期时间:" + resultJson.getString("expireTime") + ", 创建时间:" + resultJson.getString("createTime") + ", 账户状态:" + resultJson.getString("status") + ", 等级权限:" + resultJson.getString("level") + "地址:" + resultJson.getString("addr"));
     }
 
 }

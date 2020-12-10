@@ -42,12 +42,12 @@ public class AccountManager {
 
 	/**
 	 * Case01_02
+	 * @throws Exception 
 	 * 
-	 * @throws InterruptedException
 	 * @description Case01_02：激活账户
 	 */
 	@Test
-	public void createCoinTransferTxMain() throws InterruptedException {
+	public void createCoinTransferTxMain() throws Exception {
 		
 		String to = "14KEKbYtKKQm4wMthSK9J4La4nAiidGozt";
 

@@ -23,7 +23,7 @@ public class ContractManager {
     String content = "疫情发生后，NPO法人仁心会联合日本湖北总商会等四家机构第一时间向湖北捐赠3800套杜邦防护服，包装纸箱上用中文写有“岂曰无衣，与子同裳”。这句诗词出自《诗经·秦风·无衣》，翻译成白话的意思是“谁说我们没衣穿？与你同穿那战裙”。不料，这句诗词在社交媒体上引发热议，不少网民赞叹日本人的文学造诣。实际上，NPO法人仁心会是一家在日华人组织，由在日或有留日背景的医药保健从业者以及相关公司组成的新生公益组织。NPO法人仁心会事务局告诉环球时报-环球网记者，由于第一批捐赠物资是防护服，“岂曰无衣，与子同裳”恰好可以表达海外华人华侨与一线医护人员共同战胜病毒的同仇敌忾之情，流露出对同胞的守护之爱。";
     
     @Test
-    public void testEvmContract() throws InterruptedException {
+    public void testEvmContract() throws Exception {
         String privateKey = "CC38546E9E659D15E6B4893F0AB32A06D103931A8230B0BDE71459D2B27D6944";
 
         String code = "0x608060405234801561001057600080fd5b506298967f60005560ac806100266000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b11460375780636d4ce63c146053575b600080fd5b605160048036036020811015604b57600080fd5b5035606b565b005b60596070565b60408051918252519081900360200190f35b600055565b6000549056fea26469706673582212206850c96ceb3091ba2b0454750fbb02238fe0e3765327ec62c47ef4acf0b3ff2b64736f6c63430006000033";
@@ -57,9 +57,10 @@ public class ContractManager {
     
     /**
 	 * 内容存证
+     * @throws Exception 
 	 */
 	@Test
-	public void contentStore() {
+	public void contentStore() throws Exception {
 		// 存证智能合约的名称
 		String execer = "storage";
 		// 签名用的私钥
@@ -72,9 +73,10 @@ public class ContractManager {
 	
 	/**
 	 * 哈希存证模型，推荐使用sha256哈希，限制256位得摘要值
+	 * @throws Exception 
 	 */
 	@Test
-	public void hashStore() {
+	public void hashStore() throws Exception {
 		// 存证智能合约的名称
 		String execer = "storage";
 		// 签名用的私钥
@@ -88,9 +90,10 @@ public class ContractManager {
 	
     /**
      * 链接存证模型
+     * @throws Exception 
      */
 	@Test
-	public void hashAndLinkStore() {
+	public void hashAndLinkStore() throws Exception {
 		// 存证智能合约的名称
 		String execer = "storage";
 		// 签名用的私钥
@@ -165,10 +168,10 @@ public class ContractManager {
 	
 	/**
 	 * 根据hash查询存证结果
-	 * @throws UnsupportedEncodingException 
+	 * @throws Exception 
 	 */
 	@Test
-	public void queryStorage() throws UnsupportedEncodingException {
+	public void queryStorage() throws Exception {
 		JSONObject resultJson = client.queryStorage("0xdd60c2f507673e3a29c9eb548b07f6d2789ec701de813a44a7bbafac9c3711f1");
 		
 		JSONObject resultArray;

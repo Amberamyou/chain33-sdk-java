@@ -20,18 +20,18 @@ import cn.chain33.javasdk.utils.TransactionUtil;
  */
 public class Case3_3 {
 	
-	String ip = "119.45.1.41";
-    RpcClient client = new RpcClient(ip, 8801);
+	
+    RpcClient client = new RpcClient(CommUtil.ip, CommUtil.port);
 	
 	// 创世地址私钥
 	String genesisKey = "CC38546E9E659D15E6B4893F0AB32A06D103931A8230B0BDE71459D2B27D6944";
 
     /**
      * 3.3.1_1	无故障、无欺诈的共识(合法交易)
-     * @throws InterruptedException 
+     * @throws Exception 
      */
     @Test
-	public void Case3_3_1() throws InterruptedException {
+	public void Case3_3_1() throws Exception {
     	System.out.println("=====================合法交易开始=============================");
     	rightTx();
     	System.out.println("=====================合法交易结束=============================");
@@ -44,9 +44,10 @@ public class Case3_3 {
     
     /**
 	 * 3.3.2	双花攻击防范
+     * @throws Exception 
 	 */
 	@Test
-	public void Case3_3_2() throws InterruptedException {
+	public void Case3_3_2() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 
@@ -69,22 +70,28 @@ public class Case3_3 {
 		// 交易发往区块链
 		String txHash = client.submitTransaction(createTransferTx);
 		// 重复发送相同交易
-		String txHash1 = client.submitTransaction(createTransferTx);
-		System.out.println(txHash);
-		System.out.println(txHash1);
+		String txHash1 = null;
+		try {
+			txHash1 = client.submitTransaction(createTransferTx);
+		} catch (Exception e) {
+			System.out.println("RPC ERROR:" + e.getMessage());
+		}
+		System.out.println("第一笔交易hash:" + txHash);
+		System.out.println("第二笔重复交易hash:" + txHash1);
 
 		List<String> list = new ArrayList<>();
 		list.add("1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs");
 		list.add("14KEKbYtKKQm4wMthSK9J4La4nAiidGozt");
 
 		// 一般1秒一个区块
+		Thread.sleep(3000);
 		QueryTransactionResult queryTransaction1;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			queryTransaction1 = client.queryTransaction(txHash);
 			if (null == queryTransaction1) {
 				Thread.sleep(3000);
 			} else {
-				System.out.println("交易执行结果：" + queryTransaction1.getReceipt().getTyname());
+				System.out.println("第一笔交易执行结果：" + queryTransaction1.getReceipt().getTyname());
 				break;
 			}
 		}
@@ -100,8 +107,9 @@ public class Case3_3 {
     
     /**
      * 3.3.1_1	无故障、无欺诈的共识(合法交易)
+     * @throws Exception 
      */
-	private void rightTx() throws InterruptedException {
+	private void rightTx() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 
@@ -122,16 +130,22 @@ public class Case3_3 {
 		// 构造好，并本地签好名的交易
 		String createTransferTx = TransactionUtil.transferBalanceMain(transferBalanceRequest);
 		// 交易发往区块链
-		String txHash = client.submitTransaction(createTransferTx);
-		System.out.println(txHash);
+		String txHash = null;
+		try {
+			txHash = client.submitTransaction(createTransferTx);
+			System.out.println(txHash);
+		} catch (Exception e) {
+			System.out.println("RPC ERROR:" + e.getMessage());
+		}
 
 		List<String> list = new ArrayList<>();
 		list.add("1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs");
 		list.add("14KEKbYtKKQm4wMthSK9J4La4nAiidGozt");
 
 		// 一般1秒一个区块
+		Thread.sleep(3000);
 		QueryTransactionResult queryTransaction1;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			queryTransaction1 = client.queryTransaction(txHash);
 			if (null == queryTransaction1) {
 				Thread.sleep(3000);
@@ -152,8 +166,9 @@ public class Case3_3 {
     
     /**
 	 * 3.3.1_2	无故障、无欺诈的共识(非法交易 from==to)
+     * @throws Exception 
 	 */
-	private void wrongTx() throws InterruptedException {
+	private void wrongTx() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 
@@ -174,15 +189,22 @@ public class Case3_3 {
 		// 构造好，并本地签好名的交易
 		String createTransferTx = TransactionUtil.transferBalanceMain(transferBalanceRequest);
 		// 交易发往区块链
-		String txHash = client.submitTransaction(createTransferTx);
-		System.out.println(txHash);
+		String txHash = null;
+		try {
+			txHash = client.submitTransaction(createTransferTx);
+			System.out.println(txHash);
+		} catch (Exception e) {
+			System.out.println("RPC ERROR:" + e.getMessage());
+		}
 
 		List<String> list = new ArrayList<>();
 		list.add("14KEKbYtKKQm4wMthSK9J4La4nAiidGozt");
+		
+		Thread.sleep(3000);
 
 		// 一般1秒一个区块
 		QueryTransactionResult queryTransaction1;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			queryTransaction1 = client.queryTransaction(txHash);
 			if (null == queryTransaction1) {
 				Thread.sleep(3000);

@@ -48,11 +48,11 @@ public class AccountTest {
 	}
 
 	/**
-	 * @throws InterruptedException
+	 * @throws Exception 
 	 * @description 本地构造主链主积分转账交易
 	 */
 	@Test
-	public void createCoinTransferTxMain() throws InterruptedException {
+	public void createCoinTransferTxMain() throws Exception {
 
 		TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
 

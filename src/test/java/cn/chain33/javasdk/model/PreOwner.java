@@ -49,9 +49,10 @@ public class PreOwner {
      * 代理重加密秘钥分片存储到代理重加密服务器，同时数据加密上链存储
      * @param numSplit
      * @param threshold
+     * @throws Exception 
      */
     @Test
-    public void preEncrypt() {
+    public void preEncrypt() throws Exception {
         AccountInfo alice = new AccountInfo();
         alice.setPrivateKey(OwnerPrivateKey);
         alice.setPublicKey(TransactionUtil.getHexPubKeyFromPrivKey(OwnerPrivateKey));
@@ -95,8 +96,9 @@ public class PreOwner {
      * 
      * @param encryptKey
      * @param alice
+     * @throws Exception 
      */
-    private void uploadKey(EncryptKey encryptKey, AccountInfo alice, String pubkey) {
+    private void uploadKey(EncryptKey encryptKey, AccountInfo alice, String pubkey) throws Exception {
         // 生成重加密密钥分片
         KeyFrag[] kFrags = new KeyFrag[numSplit];
         try {
