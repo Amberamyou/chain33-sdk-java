@@ -192,7 +192,7 @@ public class TransactionUtil {
 	}
 
 	public static Long getRandomNonce() {
-		Random random = new Random(System.currentTimeMillis());
+		Random random = new Random(System.nanoTime());
 		return Math.abs(random.nextLong());
 	}
 

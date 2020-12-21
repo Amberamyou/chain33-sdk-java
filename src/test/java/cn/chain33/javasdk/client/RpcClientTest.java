@@ -20,9 +20,9 @@ import cn.chain33.javasdk.utils.TransactionUtil;
 public class RpcClientTest {
 
 	// 平行链IP
-	String ip = "119.45.1.41";
+	String ip = "132.232.76.48";
 	// 平行链服务端口
-	int port = 8901;
+	int port = 8801;
     RpcClient client = new RpcClient(ip, port);
 	
 
@@ -430,7 +430,7 @@ public class RpcClientTest {
     public void convertExecertoAddr() {
         String address;
         try {
-			address = client.convertExectoAddr("coins");
+			address = client.convertExectoAddr("user.writer");
 	        System.out.println(address);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

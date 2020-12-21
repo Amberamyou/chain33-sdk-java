@@ -18,6 +18,11 @@ public class CommUtil {
 	public static final String ip3 = "139.155.31.59";
 	public static final String ip4 = "139.155.34.60";
 	
+//	public static final String ip1 = "172.27.0.2";
+//	public static final String ip2 = "172.27.0.9";
+//	public static final String ip3 = "172.27.0.15";
+//	public static final String ip4 = "172.27.0.5";
+	
 		
 	public static final int port = 8801;
 	
