@@ -4,9 +4,9 @@ import java.util.Random;
 
 import cn.chain33.javasdk.client.Account;
 import cn.chain33.javasdk.client.RpcClient;
-import cn.chain33.javasdk.utils.TransactionUtil;
+import cn.chain33.javasdk.utils.StorageUtil;
 
-public class Performance {
+public class StoragePerform {
 
 	RpcClient client = null;
 	
@@ -22,16 +22,15 @@ public class Performance {
 		int nThreads = Runtime.getRuntime().availableProcessors();
 		System.out.println("线程数" + nThreads);
 
-		String execer = "user.writer";
-
 		try {
+
 			client = new RpcClient(ip, Integer.parseInt(port));
-			String contractAddress = client.convertExectoAddr(execer);
 			String privateKey = null;
+			// 25*4个线程，每个线程构造并签名1万笔交易
 			for (int i = 0; i < nThreads; i++) {
 				privateKey = account.newAccountLocal().getPrivateKey();
 				// 构造交易
-				startthread1(privateKey, Integer.parseInt(num), client, execer, contractAddress);
+				startthread1(privateKey, Integer.parseInt(num), client);
 			}
 
 		} catch (Exception e) {
@@ -49,8 +48,8 @@ public class Performance {
 	 * @param privateKey
 	 * @param toaddress
 	 */
-	private void startthread1(String privateKey, int num, RpcClient client, String execer, String toaddress) {
-		Thread1 st = new Thread1(privateKey, num, client, execer, toaddress);
+	private void startthread1(String privateKey, int num, RpcClient client) {
+		Thread1 st = new Thread1(privateKey, num, client);
 		Thread t = new Thread(st);
 		t.start();
 	}
@@ -66,33 +65,24 @@ public class Performance {
 		String privateKey;
 		int num;
 		RpcClient client;
-		String execer;
-		String toaddress;
 
-		public Thread1(String privateKey, int num, RpcClient client, String execer, String toaddress) {
+		public Thread1(String privateKey, int num, RpcClient client) {
 			this.privateKey = privateKey;
 			this.num = num;
 			this.client = client;
-			this.execer = execer;
-			this.toaddress = toaddress;
-			
 		}
 
 		@Override
 		public void run() {
-
+			String execer = "storage";
 			String payLoad = getRamdonString(32);
 			String txEncode = null;
 			String hash = null;
 			int count = 0;
 			long start = System.currentTimeMillis();
-			long txHeight = 0;
 			for (int i = 0; i < num; i++) {
+				txEncode = StorageUtil.createOnlyNotaryStorage(payLoad.getBytes(), execer, privateKey);
 				try {
-				txHeight = client.getLastHeader().getHeight();
-				txEncode = TransactionUtil.createTransferTx(privateKey, toaddress, execer, payLoad.getBytes(),
-						TransactionUtil.DEFAULT_FEE, txHeight);
-
 					hash = client.submitTransaction(txEncode);
 					if (hash != null) {
 						count++;
@@ -135,7 +125,7 @@ public class Performance {
 		String ip = args[0];
 		String port = args[1];
 		String num = args[2];
-		Performance test = new Performance();
+		StoragePerform test = new StoragePerform();
 		test.runTest(ip, port, num);
 	}
 

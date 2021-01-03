@@ -17,7 +17,7 @@ import cn.chain33.javasdk.utils.TransactionUtil;
 public class StorageTest {
 	
 	// 联盟链节点IP
-	String ip = "132.232.87.45";
+	String ip = "132.232.76.48";
 	// 平行链服务端口
 	int port = 8801;
     RpcClient client = new RpcClient(ip, port);
@@ -117,7 +117,7 @@ public class StorageTest {
 	@Test
 	public void queryStorage() throws Exception {
 		// contentStore
-		JSONObject resultJson = client.queryStorage("0x65ee5802fbcf04f472258fab2f4c587a7e023965d3577dc901bc8db06bd844f0");
+		JSONObject resultJson = client.queryStorage("0x1cba7fc2a2b36989472d03a32cf2a4863e9d1d3904ef58577a18cfc17ead369b");
 		
 		JSONObject resultArray;
         if (resultJson.containsKey("linkStorage")) {
