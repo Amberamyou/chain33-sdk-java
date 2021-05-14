@@ -2,36 +2,13 @@
 调用chain33 rpc接口的java客户端。
 
 # 使用
-1.添加依赖
-``` java
-<dependency>
-	<groupId>cn.chain33</groupId>
-	<artifactId>sdk-java</artifactId>
-	<version>1.0.8</version>
-</dependency>
-```
-如果直接使用jar包,需要自己导入依赖的包
+1.下载最新的JAVA-SDK版本  
+下载地址：https://github.com/33cn/chain33-sdk-java/releases/download/1.0.13/chain33-sdk-java-1.0.13.zip  
+解压后，通过mvn下载依赖jar包  
+这边也提供jar包下载：https://bty33.oss-cn-shanghai.aliyuncs.com/java-sdk-jar.zip  
 
-``` xml
-        <dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>3.5.1</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.47</version>
-		</dependency>
 
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.3</version>
-		</dependency>
-```
-2.使用RpcClient调用接口
+2.整备好环境，使用RpcClient调用接口
 
 ``` java
 初始化,设置Ip端口
@@ -39,6 +16,15 @@ RpcClient client = new RpcClient("x.x.x.x",8801);
 调用接口
 client.接口();
 ```
+
+3.整备好环境，使用GrpcClient调用接口
+
+``` java
+GrpcClient client = new GrpcClient(host);
+调用接口
+client.run(o->o.method(builder));
+```
+
 # 接口列表
 下面罗列的是java sdk提供的接口，具体调用可以参考测试代码里的例子
 
@@ -77,6 +63,9 @@ client.接口();
  - client.submitRawTransaction(参数)    发送签名后的交易
  - client.sendToAddress(参数)    交易
  - client.createTransaction(参数)    合约交易创建
+ - client.addPushSubscribe(参数)    注册推送回调
+ - client.listPushes(参数)    列举推送服务
+ - client.getPushSeqLastNum(参数)    获取某推送服务最新序列号的值
  - TransactionUtil.createTransferPayLoad(参数)	本地构造转账交易payload
  - TransactionUtil.createTransferTx(参数,payload)	本地构造转账交易体
  - 创建好的交易体使用client.submitTransaction提交交易

@@ -50,6 +50,7 @@ public class SM2Util {
 	private static final int DIGEST_LENGTH = 32;
 
 	private static byte[] default_uid = {0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38};
+	public  static final byte[] Default_Uid = {0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38};
 	private static SecureRandom random = new SecureRandom();
 	private static ECCurve.Fp curve = new ECCurve.Fp(p, a, b, n, null);
 	private static ECPoint G= curve.createPoint(gx, gy);
@@ -288,7 +289,7 @@ public class SM2Util {
 	 */
 	public static SM2KeyPair generateKeyPair() {
 
-		BigInteger d = random(n.subtract(new BigInteger("1")));
+		BigInteger d = random(n.subtract(new BigInteger("1")).shiftRight(1));
 
 		SM2KeyPair keyPair = new SM2KeyPair(G.multiply(d).normalize(), d);
 

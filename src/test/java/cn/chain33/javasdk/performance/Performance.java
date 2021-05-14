@@ -12,6 +12,7 @@ public class Performance {
 	
 	Account account = new Account();
 
+	long txHeight = 0;
 	
 	/**
 	 * 
@@ -22,18 +23,20 @@ public class Performance {
 		int nThreads = Runtime.getRuntime().availableProcessors();
 		System.out.println("线程数" + nThreads);
 
-		String execer = "user.writer";
+		String execer = "user.write";
 
 		try {
 			client = new RpcClient(ip, Integer.parseInt(port));
 			String contractAddress = client.convertExectoAddr(execer);
 			String privateKey = null;
+			// 获取区块高度
+			startthread2(client);
+			
 			for (int i = 0; i < nThreads; i++) {
 				privateKey = account.newAccountLocal().getPrivateKey();
 				// 构造交易
 				startthread1(privateKey, Integer.parseInt(num), client, execer, contractAddress);
 			}
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,6 +54,18 @@ public class Performance {
 	 */
 	private void startthread1(String privateKey, int num, RpcClient client, String execer, String toaddress) {
 		Thread1 st = new Thread1(privateKey, num, client, execer, toaddress);
+		Thread t = new Thread(st);
+		t.start();
+	}
+
+	
+	/**
+	 * 获取区块高度
+	 * 
+	 * @param client
+	 */
+	private void startthread2(RpcClient client) {
+		Thread2 st = new Thread2(client);
 		Thread t = new Thread(st);
 		t.start();
 	}
@@ -87,12 +102,12 @@ public class Performance {
 			int count = 0;
 			long start = System.currentTimeMillis();
 			long txHeight = 0;
+
 			for (int i = 0; i < num; i++) {
 				try {
-				txHeight = client.getLastHeader().getHeight();
-				txEncode = TransactionUtil.createTransferTx(privateKey, toaddress, execer, payLoad.getBytes(),
-						TransactionUtil.DEFAULT_FEE, txHeight);
 
+					txEncode = TransactionUtil.createTransferTx(privateKey, toaddress, execer, payLoad.getBytes(),
+							TransactionUtil.DEFAULT_FEE, txHeight);
 					hash = client.submitTransaction(txEncode);
 					if (hash != null) {
 						count++;
@@ -106,6 +121,7 @@ public class Performance {
 			long end = System.currentTimeMillis();
 			System.out.println("构造及发送交易花费时间" + (end - start) + " 毫秒, 总共发送" + count + "笔交易");
 		}
+
 
 		/**
 		 * 获取随机值
@@ -124,6 +140,39 @@ public class Performance {
 			return sb.toString();
 		}
 
+	}
+
+	
+	/**
+	 * 获取区块高度
+	 * @author fkeit
+	 *
+	 */
+	class Thread2 implements Runnable {
+
+		RpcClient client;
+
+		public Thread2(RpcClient client) {
+			this.client = client;
+		}
+
+		@Override
+		public void run() {
+			while (true) {
+				try {
+					try {
+						txHeight = client.getLastHeader().getHeight();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Thread.sleep(1000);
+				} catch (InterruptedException  e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 
