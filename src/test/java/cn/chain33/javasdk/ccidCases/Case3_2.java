@@ -40,9 +40,6 @@ public class Case3_2 {
 		String accountId = "testAccount11";
 
 		AccountInfo accountInfo = account.newAccountLocal();
-		System.out.println("privateKey is:" + accountInfo.getPrivateKey());
-		System.out.println("publicKey is:" + accountInfo.getPublicKey());
-		System.out.println("Address is:" + accountInfo.getAddress());
 		
 		CommUtil.registerAccount(client, accountId, accountInfo.getPrivateKey());
 		
@@ -90,12 +87,9 @@ public class Case3_2 {
 		createManager();
 		
 		System.out.println("=========================修改前账户信息开始===========================");
-		String accountId = "testAccount21";
+		String accountId = "testAccount1121";
 
 		AccountInfo accountInfo = account.newAccountLocal();
-//		System.out.println("privateKey is:" + accountInfo.getPrivateKey());
-//		System.out.println("publicKey is:" + accountInfo.getPublicKey());
-//		System.out.println("Address is:" + accountInfo.getAddress());
 		
 		CommUtil.registerAccount(client, accountId, accountInfo.getPrivateKey());
 		
@@ -120,12 +114,9 @@ public class Case3_2 {
 	public void case3_2_3() throws Exception {
     	
 		System.out.println("=========================生成账户信息开始===========================");
-		String accountId = "testAccount31";
+		String accountId = "testAccount1131";
 
 		AccountInfo accountInfo = account.newAccountLocal();
-//		System.out.println("privateKey is:" + accountInfo.getPrivateKey());
-//		System.out.println("publicKey is:" + accountInfo.getPublicKey());
-//		System.out.println("Address is:" + accountInfo.getAddress());
 		
 		CommUtil.registerAccount(client, accountId, accountInfo.getPrivateKey());
 		
@@ -147,25 +138,11 @@ public class Case3_2 {
 		try {
 			client.submitTransaction(txEncode);
 		} catch (Exception e) {
-			System.out.println("RPC ERROR:" + e.getMessage());
+			System.out.println("RPC接口返回: " + e.getMessage());
 		}
 		System.out.println("=========================写数据上链结束===========================");
 		
 		
-//		Thread.sleep(3000);
-//
-//		for (int tick = 0; tick < 5; tick++){
-//			QueryTransactionResult result = client.queryTransaction(submitTransaction);
-//			if(result == null) {
-//				Thread.sleep(5000);
-//				continue;
-//			}
-//
-//			System.out.println("执行结果:" + result.getReceipt().getTyname());
-//			break;
-//		}
-//		System.out.println("=========================写数据上链结束===========================");
-
 	}
     
     
@@ -178,7 +155,7 @@ public class Case3_2 {
    	public void case3_2_4() throws Exception {
     	   
    		System.out.println("=========================初始创建开始===========================");
-   		String accountId = "testAccount41";
+   		String accountId = "testAccount141";
 
    		AccountInfo accountInfo = account.newAccountLocal();
 //   		System.out.println("privateKey is:" + accountInfo.getPrivateKey());
@@ -209,7 +186,7 @@ public class Case3_2 {
 		try {
 			client.submitTransaction(txEncode);
 		} catch (Exception e) {
-			System.out.println("RPC ERROR:" + e.getMessage());
+			System.out.println("RPC接口返回: " + e.getMessage());
 		}
 
    		

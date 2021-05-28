@@ -4,14 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import cn.chain33.javasdk.client.RpcClient;
-import cn.chain33.javasdk.model.protobuf.TransactionProtoBuf;
+import cn.chain33.javasdk.model.protobuf.TransactionAllProtobuf;
 import cn.chain33.javasdk.model.rpcresult.QueryTransactionResult;
 import cn.chain33.javasdk.utils.HexUtil;
 import cn.chain33.javasdk.utils.TransactionUtil;
 
 public class CommUtil {
 	
-	public static final String ip = "132.232.76.48";
+	public static final String ip = "172.22.19.101";
 	
 //	public static final String ip1 = "132.232.76.48";
 //	public static final String ip2 = "132.232.87.45";
@@ -38,13 +38,13 @@ public class CommUtil {
     	String createTxWithoutSign = client.registeAccount("accountmanager", "Register", accountId);
 
 		byte[] fromHexString = HexUtil.fromHexString(createTxWithoutSign);
-		TransactionProtoBuf.Transaction parseFrom = null;
+		TransactionAllProtobuf.Transaction parseFrom = null;
 		try {
-			parseFrom = TransactionProtoBuf.Transaction.parseFrom(fromHexString);
+			parseFrom = TransactionAllProtobuf.Transaction.parseFrom(fromHexString);
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
 		}
-		TransactionProtoBuf.Transaction signProbuf = TransactionUtil.signProbuf(parseFrom, privateKey);
+		TransactionAllProtobuf.Transaction signProbuf = TransactionUtil.signProbuf(parseFrom, privateKey);
 		String hexString = HexUtil.toHexString(signProbuf.toByteArray());
 
 		String submitTransaction;
@@ -65,15 +65,11 @@ public class CommUtil {
 					
 			    	System.out.println("账户ID:" + resultJson.getString("accountID")+ ", 过期时间:" + resultJson.getString("expireTime") + ", 创建时间:" + resultJson.getString("createTime") + ", 账户状态:" + resultJson.getString("status") + ", 等级权限:" + resultJson.getString("level") + "地址:" + resultJson.getString("addr"));
 			    	
-//			    	// 根据状态查账户信息
-//			    	String status = "0";
-//			    	resultJson = client.queryAccountByStatus(status);
-//			    	System.out.println(resultJson);
 					break;
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("RPC ERROR:" + e.getMessage());
+			System.out.println("RPC接口返回: " + e.getMessage());
 		}
     }
     
@@ -89,13 +85,13 @@ public class CommUtil {
 		String createTxWithoutSign = client.authAccount("accountmanager", "Supervise", accountIds, op, level);
 
 		byte[] fromHexString = HexUtil.fromHexString(createTxWithoutSign);
-		TransactionProtoBuf.Transaction parseFrom = null;
+		TransactionAllProtobuf.Transaction parseFrom = null;
 		try {
-			parseFrom = TransactionProtoBuf.Transaction.parseFrom(fromHexString);
+			parseFrom = TransactionAllProtobuf.Transaction.parseFrom(fromHexString);
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
 		}
-		TransactionProtoBuf.Transaction signProbuf = TransactionUtil.signProbuf(parseFrom, "3990969DF92A5914F7B71EEB9A4E58D6E255F32BF042FEA5318FC8B3D50EE6E8");
+		TransactionAllProtobuf.Transaction signProbuf = TransactionUtil.signProbuf(parseFrom, "3990969DF92A5914F7B71EEB9A4E58D6E255F32BF042FEA5318FC8B3D50EE6E8");
 		String hexString = HexUtil.toHexString(signProbuf.toByteArray());
 
 		String submitTransaction = client.submitTransaction(hexString);
@@ -116,7 +112,7 @@ public class CommUtil {
 		// 根据accountId查询账户信息
 		JSONObject resultJson = client.queryAccountById(accountIds[0]);
 		
-		System.out.println("账户ID:" + resultJson.getString("accountID")+ ", 过期时间:" + resultJson.getString("expireTime") + ", 创建时间:" + resultJson.getString("createTime") + ", 账户状态:" + resultJson.getString("status") + ", 等级权限:" + resultJson.getString("level") + "地址:" + resultJson.getString("addr"));
+		System.out.println("账户ID:" + resultJson.getString("accountID")+ ", 过期时间:" + resultJson.getString("expireTime") + ", 创建时间:" + resultJson.getString("createTime") + ", 账户状态:" + resultJson.getString("status") + ", 等级权限:" + resultJson.getString("level") + " 地址:" + resultJson.getString("addr"));
     }
 
 }

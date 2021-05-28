@@ -38,7 +38,7 @@ public class Case3_1 {
     	System.out.println("总区块数目为： " + blockResult.getHeight());
     	
     	int blockTime =  client.getBlockAverageTime();
-    	System.out.println("平均出块时间为： " + blockTime + " 豪秒");
+    	System.out.println("平均出块时间为： " + blockTime + " 毫秒");
     	    	
     }
     
@@ -96,8 +96,7 @@ public class Case3_1 {
     	// 转向帐号非法（地址不合法）
     	to = "14KEKbYtKKQm4wMthSK9J4La4nAiidabcd";
     	transfer("地址不合法",1,to,fromprivateKey,fromAddress);
-    			
-		
+
     }
     
     
@@ -169,9 +168,9 @@ public class Case3_1 {
 		list.add(fromAddress);
 		list.add(to);
 		
-		Thread.sleep(3000);
 
 		for (int tick = 0; tick < 5; tick++){
+			Thread.sleep(5000);
 			QueryTransactionResult result = client.queryTransaction(txHash);
 			if(result == null) {
 				Thread.sleep(5000);

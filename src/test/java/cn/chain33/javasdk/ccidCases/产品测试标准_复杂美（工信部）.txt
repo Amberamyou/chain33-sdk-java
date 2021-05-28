@@ -1,0 +1,128 @@
+1. 环境部署： 【测试环境部署.md】文件  （注意：只能这个文件里的版本，这个版本针对3.1.3，3.1.4做了定制，其它版本没有这个能力）
+2. 批量发交易工具：https://bty33.oss-cn-shanghai.aliyuncs.com/chain33Dev/sendtx-count
+#格式说明
+sendtx-count perf [区块链节点的 IP:grpc 端口] [交易字节数] [发送多少笔] [每次发送时间间隔，单位 100 毫秒] [总共发送多长时间，单位秒，0 表示一直持续发送]
+3. 测试脚本： https://github.com/andyYuanFZM/chain33-sdk-java/blob/chain33_test/src/test/java/cn/chain33/javasdk/ccidCases/
+4. 测试用例： 见【复杂美确认测试用例及步骤（工信）.docx】
+
+2.1.1	查询区块平均生成时间、总区块数   	======>测试程序：case3_1_1
+也可以用命令行方式查询：  ./chain33-cli qbft perf_stat
+
+2.1.2	查询指定区块业务数量	        		======>测试程序：case3_1_2
+2.1.3	查询指定区块业务明细	        		======>测试程序：case3_1_3
+2.1.4	点对点业务处理	        			======>测试程序：case3_1_4
+
+// 转小数个积分，手工操作
+./chain33-cli coins transfer -a 0.001 -n test -t 1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs
+./chain33-cli  wallet sign -k CC38546E9E659D15E6B4893F0AB32A06D103931A8230B0BDE71459D2B27D6944     -e 3600000  -d  “上一步生成数据”
+./chain33-cli  wallet send -d  “上一步生成数据”
+
+./chain33-cli account balance -a 14KEKbYtKKQm4wMthSK9J4La4nAiidGozt -e coins
+./chain33-cli account balance -a 1CbEVT9RnM5oZhWMj4fxUrJX94VtRotzvs -e coins 
+
+2.1.5	业务溯源				======>测试程序：case3_1_5
+3.1.1	账户注册				======>测试程序：case3_2_1
+3.1.2	账户信息修改				======>测试程序：case3_2_2
+3.1.3	账户冻结				======>测试程序：case3_2_3
+3.1.4	账户权限控制				======>测试程序：case3_2_4
+
+4.1.1	无故障、无欺诈的共识			======>测试程序：Case3_3_1
+4.1.2	双花攻击防范				======>测试程序：Case3_3_2
+4.1.3	容错能力				======>停掉一个共识节点，并运行 Case3_3_1
+	
+5.1.1	链上内容的加密传输与存储		======>测试程序：Case3_4_1
+5.1.2	平台加密算法的支持                                  ======>测试程序：Case3_4_2
+
+6.1.1	智能合约执行结果			======>测试程序：Case3_5_1
+6.1.2	查询支持				======>测试程序：Case3_5_1
+6.1.3	智能合约更新				======>测试程序：Case3_5_3
+6.1.4	合约冻结或终止				======>测试程序：Case3_5_4   销毁合约标志位："suicided": true,
+6.1.5	智能合约移植				======>测试程序：手工测试，用最新代码编译版本，替换其中一个节点，再检查合约是否运行正常。
+
+git remote -v
+git remote update
+
+export GO111MODULE=on
+export GOPROXY=https://mirrors.aliyun.com/goproxy
+make
+
+cd build
+mv chain33 chain33_latest
+scp chain33_latest ubuntu@139.155.68.180:/home/ubuntu/qbft/  
+
+7.1.1	新增节点				======>测试程序：Case3_7_1 （第一次操作时一定要先执行：createManager方法）
+先增加验证节点
+step1:  再准备一台服务器，从其它节点上拷贝 chain33, chain33-cli,chain33.toml, genesis.json 这四个文件
+step2:  新节点上执行： ./chain33-cli qbft gen_file -t bls -n 1  生成该节点的私钥， 并且重命名 mv priv_validator_0.json  priv_validator.json
+step3: 启动： nohup ./chain33 -f chain33.toml >> pbft.out&
+step4: 等待一会，查看 ./chain33-cli net peer info 看节点的同步状态，这一步看的是p2p的网络同步
+step5: 查看./chain33-cli qbft nodes， 这一步查看到目前共识节点数目。
+
+再将上一步的验证节点更新成共识节点
+step1:  首先确认目前共识节点数据，登录4台服务器中的任意一台，执行  ./chain33-cli valnode nodes  查看共识节点数目
+step2：  打开新节点的priv_validator.json文件，找到节点生成的公钥（pub_key）  放到step3的测试程序中
+step3:  Case3_7_1
+step4:  执行成功后，再在节点上执行  ./chain33-cli qbft nodes  查看共识节点数目
+
+做一笔交易使区块高度增加，查最新区块信息，在里面可以看到当前的共识节点和前共识节点信息。
+
+7.1.2	删除节点				======>测试程序：Case3_7_2  （同样需要拷贝节点公钥到测试方法中）
+7.1.3	节点账本同步				======>手工测试观察
+7.1.4	区块配置修改				======>修改区块中最大交易笔数(改成25)，重启后批量发交易，人工观察
+nohup ./sendtx-count perf 172.22.19.101:8802 32 1 1 0 >> send.out1&
+
+7.1.5	节点访问权限授权
+step1:  比如在第一台服务器上配置IP白名单功能，然后重启服务
+比如： whitelist=["127.0.0.1","172.22.19.104"] 
+
+本地访问： ./chain33-cli block last_header
+白名单或黑名单节点访问：./chain33-cli --rpc_laddr="http://172.22.19.101:8801" block last_header
+
+7.1.6	节点访问接口权限授权
+配置一个jsonrpc的白名单，GetPeerInfo 。通过jsonrpc分别访问此方法和其它方法	
+
+8.1.1	新增节点的稳定性	======>  新增节点后，持续交易，人工观察
+8.1.2	删除节点的稳定性	======>  删除节点后，持续交易，人工观察
+8.1.3	修改节点配置的稳定性	======>  修改配置，持续交易，人工观察
+
+
+9. TPS测试
+- 在测试机器上通过批量发交易程序执行发送命令，向 4 个节点都发送交易（可以多发几次，增加压力， 以下命令总共发送  20000*30*16=960万笔交易）
+nohup sendtx-count perf 172.27.0.2:8802 32 20000 1 30 >> send.out1&
+nohup sendtx-count perf 172.27.0.5:8802 32 20000 1 30 >> send.out2&
+nohup sendtx-count perf 172.27.0.9:8802 32 20000 1 30 >> send.out3&
+nohup sendtx-count perf 172.27.0.15:8802 32 20000 1 30 >> send.out4&
+
+nohup sendtx-count perf 172.27.0.2:8802 32 20000 1 30 >> send.out1&
+nohup sendtx-count perf 172.27.0.5:8802 32 20000 1 30 >> send.out2&
+nohup sendtx-count perf 172.27.0.9:8802 32 20000 1 30 >> send.out3&
+nohup sendtx-count perf 172.27.0.15:8802 32 20000 1 30 >> send.out4&
+
+nohup sendtx-count perf 172.27.0.2:8802 32 20000 1 30 >> send.out1&
+nohup sendtx-count perf 172.27.0.5:8802 32 20000 1 30 >> send.out2&
+nohup sendtx-count perf 172.27.0.9:8802 32 20000 1 30 >> send.out3&
+nohup sendtx-count perf 172.27.0.15:8802 32 20000 1 30 >> send.out4&
+
+nohup sendtx-count perf 172.27.0.2:8802 32 20000 1 30 >> send.out1&
+nohup sendtx-count perf 172.27.0.5:8802 32 20000 1 30 >> send.out2&
+nohup sendtx-count perf 172.27.0.9:8802 32 20000 1 30 >> send.out3&
+nohup sendtx-count perf 172.27.0.15:8802 32 20000 1 30 >> send.out4&
+#格式说明
+sendtx-count perf [区块链节点的 IP:grpc 端口] [交易字节数] [发送多少笔] [每次发送时间间隔，
+单位 100 毫秒] [总共发送多长时间，单位秒，0 表示一直持续发送]
+
+检查交易日志：
+grep reach 【区块链日志】    //  可以查看每个区块中交易数目，区块执行时间等信息
+
+统计命令
+./chain33-cli qbft perf_stat    // 可以查看全部打包的交易笔数，平均TPS等信息
+其中全部打包交易笔数是忽略第一个区块中交易数的， 并且每个区块第一笔交易是系统自己构造的共识交易，所以在统计发送成功率时要考虑前面两个因素。  正常情况
+上，批量发送工具发出去多少笔交易，区块链上都会全部打包（正确率100%）
+
+10. 其它：
+10.1  CA证书
+10.2  节点加密传输
+10.3   数据审计
+10.4  多架构支持
+
+

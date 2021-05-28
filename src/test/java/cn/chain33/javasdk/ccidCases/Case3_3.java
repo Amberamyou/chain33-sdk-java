@@ -35,7 +35,7 @@ public class Case3_3 {
     	System.out.println("=====================合法交易开始=============================");
     	rightTx();
     	System.out.println("=====================合法交易结束=============================");
-    	System.out.println("=====================非法交易开始=============================");
+    	System.out.println("=====================非法交易开始(自己给自己转账)=============================");
     	wrongTx();
     	System.out.println("=====================非法交易结束=============================");
 		
@@ -143,7 +143,7 @@ public class Case3_3 {
 		list.add("14KEKbYtKKQm4wMthSK9J4La4nAiidGozt");
 
 		// 一般1秒一个区块
-		Thread.sleep(3000);
+		Thread.sleep(10000);
 		QueryTransactionResult queryTransaction1;
 		for (int i = 0; i < 5; i++) {
 			queryTransaction1 = client.queryTransaction(txHash);
@@ -200,7 +200,7 @@ public class Case3_3 {
 		List<String> list = new ArrayList<>();
 		list.add("14KEKbYtKKQm4wMthSK9J4La4nAiidGozt");
 		
-		Thread.sleep(3000);
+		Thread.sleep(10000);
 
 		// 一般1秒一个区块
 		QueryTransactionResult queryTransaction1;
