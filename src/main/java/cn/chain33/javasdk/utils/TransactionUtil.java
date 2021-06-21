@@ -247,14 +247,11 @@ public class TransactionUtil {
 		byte[] privateKeyBytes = HexUtil.fromHexString(privateKey);
 		return createTxMain(privateKeyBytes, toAddress, execer.getBytes(), payLoad, DEFAULT_SIGNTYPE, fee, txheight);
 	}
-<<<<<<< HEAD
-=======
 
 	public static TransactionAllProtobuf.Transaction createTransferTx2(String privateKey, String toAddress, String execer, byte[] payLoad, long fee, long txheight) {
 		byte[] privateKeyBytes = HexUtil.fromHexString(privateKey);
 		return createTxMain2(privateKeyBytes, toAddress, execer.getBytes(), payLoad, DEFAULT_SIGNTYPE, fee, txheight);
 	}
->>>>>>> master
 
 	public static String createTx(String privateKey, String execer, String payLoad) {
 		byte[] privateKeyBytes = HexUtil.fromHexString(privateKey);

@@ -363,6 +363,7 @@ public class RpcClient {
                 throw new Chain33Exception(error);
             }
         }
+		return false;
     }
     
     /**
@@ -1023,8 +1024,9 @@ public class RpcClient {
      * @param execer:   执行器名称
      * @param funcName: 方法名
      * @return TokenBalanceResult
+     * @throws Chain33Exception 
      */
-    public String queryEVMGas(String execer, String code, String abi, String address) {
+    public String queryEVMGas(String execer, String code, String abi, String address) throws Chain33Exception {
         RpcRequest postData = getPostData(RpcMethod.QUERY);
         JSONObject requestParam = new JSONObject();
         requestParam.put("execer", execer);
@@ -1713,8 +1715,9 @@ public class RpcClient {
     /**
      * @description 获取推送列表 listPushes
      * @return 推送列表
+     * @throws Chain33Exception 
      */
-    public ListPushesResult listPushes() {
+    public ListPushesResult listPushes() throws Chain33Exception {
         RpcRequest postData = getPostData(RpcMethod.LIST_PUSHES);
         String result = HttpUtil.httpPostBody(getUrl(), postData.toJsonString());
         if (StringUtil.isNotEmpty(result)) {
@@ -1731,8 +1734,9 @@ public class RpcClient {
     /**
      * @description 获取某推送服务最新序列号的值 getPushSeqLastNum
      * @return 获取某推送服务最新序列号的值
+     * @throws Chain33Exception 
      */
-    public Int64Result getPushSeqLastNum(String name) {
+    public Int64Result getPushSeqLastNum(String name) throws Chain33Exception {
         RpcRequest postData = getPostData(RpcMethod.GET_PUSH_SEQ_LAST_NUM);
         JSONObject requestParam = new JSONObject();
         requestParam.put("data", name);

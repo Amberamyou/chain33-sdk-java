@@ -39,9 +39,10 @@ public class SimpleStoreGrpc {
 
 	/**
 	 * 内容存证上链
+	 * @throws Exception 
 	 */
 	@Test
-	public void writeData() {
+	public void writeData() throws Exception {
 		// 存证智能合约的名称（简单存证，固定就用这个名称）
 		String execer = "user.write";
 		//jsonrpc
@@ -79,9 +80,10 @@ public class SimpleStoreGrpc {
 	// ========================================== 平行链的场景 start  ==============================================================
 	/**
 	 * 内容存证上链
+	 * @throws Exception 
 	 */
 	@Test
-	public void writeParaData() {
+	public void writeParaData() throws Exception {
 		// 存证智能合约的名称（简单存证，固定就用这个名称）
 		String execer = "user.p.midea.user.write";
 		//jsonrpc

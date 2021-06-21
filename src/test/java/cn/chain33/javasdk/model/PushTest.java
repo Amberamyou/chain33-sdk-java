@@ -4,6 +4,7 @@ import cn.chain33.javasdk.model.rpcresult.Int64Result;
 import cn.chain33.javasdk.model.rpcresult.ListPushesResult;
 import org.junit.Test;
 import cn.chain33.javasdk.client.RpcClient;
+import cn.chain33.javasdk.model.exception.Chain33Exception;
 import cn.chain33.javasdk.model.rpcresult.BooleanResult;
 
 import java.util.HashMap;
@@ -39,9 +40,10 @@ public class PushTest {
      *  - URL相同
      *  如果推送已经停止，则重新开始推送；
      *  如果推送正常，则继续推送；
+     * @throws Chain33Exception 
      */
     @Test
-    public void push(){
+    public void push() throws Chain33Exception{
         Map<String,Boolean> m = new HashMap();
         m.put("coin",true);
         BooleanResult result = clientMain.addPushSubscribe("test1","http://127.0.0.1:8080","json",0,0,"",0,m);
@@ -50,18 +52,20 @@ public class PushTest {
 
     /**
      *  获取推送列表
+     * @throws Chain33Exception 
      */
     @Test
-    public void listPushes(){
+    public void listPushes() throws Chain33Exception{
         ListPushesResult result = clientMain.listPushes();
         System.out.println(result.toString());
     }
 
     /**
      *  获取name对应推送最新seq值
+     * @throws Chain33Exception 
      */
     @Test
-    public void getPushSeqLastNum(){
+    public void getPushSeqLastNum() throws Chain33Exception{
         String name = "test";
         Int64Result result = clientMain.getPushSeqLastNum(name);
         System.out.println(result.toString());

@@ -50,8 +50,8 @@ public class StorageTest {
 		String txEncode = null;
 		String submitTransaction = null;
 		
-			txEncode = StorageUtil.createOnlyNotaryStorage(content.getBytes(), execer, privateKey);
-			submitTransaction = client.submitTransaction(txEncode);
+		txEncode = StorageUtil.createOnlyNotaryStorage(content.getBytes(), execer, privateKey);
+		submitTransaction = client.submitTransaction(txEncode);
 		
 		System.out.println(submitTransaction);
 		

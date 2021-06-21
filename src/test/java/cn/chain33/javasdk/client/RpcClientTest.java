@@ -1,6 +1,5 @@
 package cn.chain33.javasdk.client;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -436,8 +435,6 @@ public class RpcClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-        System.out.println(address);
     }
 
 
