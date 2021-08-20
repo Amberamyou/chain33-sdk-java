@@ -1,7 +1,5 @@
 package cn.chain33.javasdk.cases;
 
-import java.io.UnsupportedEncodingException;
-
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSONObject;
@@ -44,10 +42,10 @@ public class ContractManager {
         Thread.sleep(60000);
 
         // 销毁合约
-        txEncode = EvmUtil.destroyEvmContract(contractName, privateKey);
-        submitTransaction = client.submitTransaction(txEncode);
-        System.out.println(submitTransaction);
-        Thread.sleep(60000);
+//        txEncode = EvmUtil.destroyEvmContract(contractName, privateKey);
+//        submitTransaction = client.submitTransaction(txEncode);
+//        System.out.println(submitTransaction);
+//        Thread.sleep(60000);
 
         // 再次调用合约
         txEncode = EvmUtil.callEvmContract("".getBytes(),"", 0, "get()", contractName, privateKey);

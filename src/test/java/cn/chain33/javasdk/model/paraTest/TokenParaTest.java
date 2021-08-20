@@ -1,5 +1,6 @@
 package cn.chain33.javasdk.model.paraTest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,10 +90,10 @@ public class TokenParaTest {
     
 	/**
 	 * 本地预创建token并提交
-	 * @throws Exception 
+	 * @throws IOException 
 	 */
 	@Test
-	public void preCreateTokenLocal() throws Exception {
+	public void preCreateTokenLocal() throws IOException {
 	   //token总额
 	   long total = 19900000000000000L;
 	   //token的注释名称
@@ -119,10 +120,10 @@ public class TokenParaTest {
 	
 	/**
 	 * 本地创建token完成交易并提交
-	 * @throws Exception 
+	 * @throws IOException 
 	 */
 	@Test
-	public void createTokenFinishLocal() throws Exception {
+	public void createTokenFinishLocal() throws IOException {
 	   String symbol = "COINSDEVX";
 	   String execer = paraName + "token";
 	   //token-finisher地址对应的私钥（createTokenFinisher函数中配置的：value）
@@ -136,11 +137,12 @@ public class TokenParaTest {
 	
     /**
      * 平行链上的转账交易一般通过代扣的方式进行
-     * @throws Exception 
+     * @throws InterruptedException 
+     * @throws IOException 
      * @description 通过代扣的方式构造token的转账交易
      */
     @Test
-    public void createTokenTransfer() throws Exception {
+    public void createTokenTransfer() throws InterruptedException, IOException {
     	// 转账说明
         String note = "转账说明";
         // token名
@@ -183,12 +185,12 @@ public class TokenParaTest {
     
     /**
      * 
-     * @throws Exception 
+     * @throws IOException 
      * @description 查询已经创建的token
      *
      */
     @Test
-    public void queryCreateTokens() throws Exception {
+    public void queryCreateTokens() throws IOException {
         String execer = paraName + "token";
         //状态 0预创建的 1创建成功的
         Integer status = 1;
@@ -202,12 +204,12 @@ public class TokenParaTest {
 	
     /**
      * 
-     * @throws Exception 
+     * @throws IOException 
      * @description 查询token余额
      *
      */
     @Test
-    public void getTokenBalace() throws Exception {
+    public void getTokenBalace() throws IOException {
         // 执行器名称
         String execer = paraName + "token";
         

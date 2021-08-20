@@ -1,18 +1,17 @@
 package cn.chain33.javasdk.utils;
 
-import cn.chain33.javasdk.model.protobuf.TransactionAllProtobuf;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import cn.chain33.javasdk.model.enums.StorageEnum;
 import cn.chain33.javasdk.model.protobuf.StorageProtobuf;
-import cn.chain33.javasdk.model.protobuf.TransactionAllProtobuf;
 import cn.chain33.javasdk.model.protobuf.StorageProtobuf.ContentOnlyNotaryStorage.Builder;
 import cn.chain33.javasdk.model.protobuf.StorageProtobuf.EncryptNotaryStorage;
 import cn.chain33.javasdk.model.protobuf.StorageProtobuf.EncryptShareNotaryStorage;
 import cn.chain33.javasdk.model.protobuf.StorageProtobuf.HashOnlyNotaryStorage;
 import cn.chain33.javasdk.model.protobuf.StorageProtobuf.LinkNotaryStorage;
 import cn.chain33.javasdk.model.protobuf.StorageProtobuf.StorageAction;
+import cn.chain33.javasdk.model.protobuf.TransactionAllProtobuf;
 
 public class StorageUtil {
     
@@ -33,6 +32,37 @@ public class StorageUtil {
         
         String createTxWithoutSign = TransactionUtil.createTxWithoutSign(execer.getBytes(), storageAction.toByteArray(),
         		TransactionUtil.DEFAULT_FEE, 0);
+        byte[] fromHexString = HexUtil.fromHexString(createTxWithoutSign);
+        TransactionAllProtobuf.Transaction parseFrom = null;
+        try {
+            parseFrom = TransactionAllProtobuf.Transaction.parseFrom(fromHexString);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+        TransactionAllProtobuf.Transaction signProbuf = TransactionUtil.signProbuf(parseFrom, privateKey);
+        String hexString = HexUtil.toHexString(signProbuf.toByteArray());
+        return hexString;
+    }
+
+    /**
+     *
+     * @description KV字符串模型
+     * @param key 键字符串，唯一索引
+     * @param value
+     * @param op 0创建，1表示追加
+     * @return  payload
+     *
+     */
+    public static String createOnlyNotaryStorage(String key, String value,Integer op, String execer, String privateKey) {
+        Builder contentOnlyNotaryStorageBuilder = StorageProtobuf.ContentOnlyNotaryStorage.newBuilder();
+        contentOnlyNotaryStorageBuilder.setKey(key).setValue(value).setOp(op);//内容小于512k;
+        cn.chain33.javasdk.model.protobuf.StorageProtobuf.StorageAction.Builder storageActionBuilder = StorageProtobuf.StorageAction.newBuilder();
+        storageActionBuilder.setContentStorage(contentOnlyNotaryStorageBuilder.build());
+        storageActionBuilder.setTy(StorageEnum.ContentOnlyNotaryStorage.getTy());
+        StorageAction storageAction = storageActionBuilder.build();
+
+        String createTxWithoutSign = TransactionUtil.createTxWithoutSign(execer.getBytes(), storageAction.toByteArray(),
+                TransactionUtil.DEFAULT_FEE, 0);
         byte[] fromHexString = HexUtil.fromHexString(createTxWithoutSign);
         TransactionAllProtobuf.Transaction parseFrom = null;
         try {

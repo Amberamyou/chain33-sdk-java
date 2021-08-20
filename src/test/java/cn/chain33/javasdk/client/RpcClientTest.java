@@ -1,5 +1,7 @@
 package cn.chain33.javasdk.client;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,28 +31,25 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 查询节点是否同步
      * 联盟链：适用
      * 主链：适用
      * 平行链：不适用
      */
     @Test
-    public void checkStatus() {
-        try {
-			System.out.println("is sync:" + client.isSync());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    public void checkStatus() throws IOException {
+        System.out.println("is sync:" + client.isSync());
     }
 
     /**
      * 
+     * @throws IOException 
      * @description 查询钱包状态
      *
      */
     @Test
-    public void getWalletStatus() {
+    public void getWalletStatus() throws IOException {
         WalletStatusResult walletStatus;
         try {
 			walletStatus = client.getWalletStatus();
@@ -64,24 +63,18 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 锁定
      *
      */
     @Test
-    public void lock() {
-        BooleanResult lock;
-		try {
-			lock = client.lock();
-	        System.out.println(lock);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+    public void lock() throws IOException {
+        BooleanResult lock = client.lock();
+        System.out.println(lock);
     }
 
     @Test
-    public void unlock() {
+    public void unlock() throws IOException {
         // 钱包密码，长度8位，数字+字母
         String passwd = "fzm12345";
         boolean walletorticket = false;
@@ -99,29 +92,24 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 生成seed
      *
      */
     @Test
-    public void seedGen() {
-        String seedGen;
-		try {
-			seedGen = client.seedGen(1);
-	        System.out.println(seedGen);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+    public void seedGen() throws IOException {
+        String seedGen = client.seedGen(1);
+        System.out.println(seedGen);
     }
 
     /**
      * 
+     * @throws IOException 
      * @description 保存seed
      *
      */
     @Test
-    public void seedSave() {
+    public void seedSave() throws IOException {
         String seedCn = "常 辉 觉 李 固 参 鲜 村 见 控 罩 戈 狠 亿 圣";
         String passwd = "fzm12345";
         BooleanResult booleanResult;
@@ -137,11 +125,12 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 使用密码查询seed
      *
      */
     @Test
-    public void seedGet() {
+    public void seedGet() throws IOException {
         String passwd = "fzm12345";
         String seedGet;
 		try {
@@ -156,29 +145,24 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 调用节点创建账户地址
      *
      */
     @Test
-    public void newAccount() {
-        AccountResult newAccount;
-		try {
-			newAccount = client.newAccount("secondAccount");
-	        System.out.println(newAccount);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+    public void newAccount() throws IOException {
+        AccountResult newAccount = client.newAccount("secondAccount");
+        System.out.println(newAccount);
     }
 
     /**
      * 
+     * @throws IOException 
      * @description 查询节点钱包 地址列表
      *
      */
     @Test
-    public void getAccounts() {
+    public void getAccounts() throws IOException {
         List<AccountResult> accountList;
         try {
 			accountList = client.getAccountList();
@@ -194,11 +178,12 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 查询主代币余额
      *
      */
     @Test
-    public void getCoinsBalace() {
+    public void getCoinsBalace() throws IOException {
         List<String> list = new ArrayList<>();
         list.add("address1");
         list.add("address2");
@@ -218,11 +203,12 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 设置地址label
      * 
      */
     @Test
-    public void setLabel() {
+    public void setLabel() throws IOException {
         AccountResult accountResult;
         try {
 			accountResult = client.setlabel("19Sq2BSqX4CKvPMjsDsdwdfFzjUmfxxxx", "first");
@@ -237,11 +223,12 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 导入私钥
      *
      */
     @Test
-    public void importPrivKey() {
+    public void importPrivKey() throws IOException {
         String accountResult;
         try {
 			accountResult = client.importPrivatekey("privatekey", "labelname");
@@ -258,11 +245,12 @@ public class RpcClientTest {
     
     /**
      * 
+     * @throws IOException 
      * @description 导出私钥
      *
      */
     @Test
-    public void dumpPrivKey() {
+    public void dumpPrivKey() throws IOException {
         String accountResult;
         try {
 			accountResult = client.dumpPrivkey("节点上已经import的区块链地址");
@@ -276,11 +264,12 @@ public class RpcClientTest {
     }
 
     /**
+     * @throws IOException 
      * @description 查询交易hash详情
      *
      */
     @Test
-    public void queryTxDetail() {
+    public void queryTxDetail() throws IOException {
     	// 交易hash
     	// String hash = "0xe5ae58fab899781c72beaa92beb2661b4e70f8c8cbb8bbad61b0a191bc5ef6b7";
         String hash = "交易hash";
@@ -300,27 +289,23 @@ public class RpcClientTest {
     
     /**
      * 查询平均出块时间
+     * @throws IOException 
      */
     @Test
-    public void getBlockAverageTime() {
-    	int blockTime;
-		try {
-			blockTime = client.getBlockAverageTime();
-	    	System.out.println("平均出块时间为： " + blockTime + " 秒");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    public void getBlockAverageTime() throws IOException {
+    	int blockTime =  client.getBlockAverageTime();
+    	System.out.println("平均出块时间为： " + blockTime + " 秒");
     }
 
 
     /**
      * 
+     * @throws IOException 
      * @description 查询某地址下得token/合约资产列表
      *
      */
     @Test
-    public void queryUserTokens() {
+    public void queryUserTokens() throws IOException {
         List<TokenBalanceResult> queryAccountBalance;
         try {
 			queryAccountBalance = client.queryAccountBalance("12qyocayNF7Lv6C9qxxxxxx", "user.p.xxchain.coins");
@@ -336,11 +321,12 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 查询地址列表token余额
      *
      */
     @Test
-    public void queryTokenBalace() {
+    public void queryTokenBalace() throws IOException {
         List<String> addrList = new ArrayList<>();
         addrList.add("XXXXXXXXXXXX");
         List<AccountAccResult> tokenBalance;
@@ -359,11 +345,12 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 查询某地址的交易hash
      *
      */
     @Test
-    public void getTxByAddr() {
+    public void getTxByAddr() throws IOException {
         List<TxResult> txByAddr;
         try {
 			txByAddr = client.getTxByAddr("address", 0, 10, 0, -1L, 0);
@@ -382,10 +369,11 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws IOException 
      * @description 预创建token
      */
     @Test
-    public void preCreateToken() {
+    public void preCreateToken() throws IOException {
         long total = (long) (1000 * 1e8);
         // 调用节点接口预创建token 返回hash
         String createRawTokenPreCreateTx;
@@ -405,44 +393,34 @@ public class RpcClientTest {
 
     /**
      * 
+     * @throws Exception 
      * @description 完成token创建
      */
     @Test
-    public void createTokenFinish() {
-        String createRawTokenFinishTx;
-		try {
-			createRawTokenFinishTx = client.createRawTokenFinishTx((long) 1e8, "LGS", "address");
-	        String signRawTx = client.signRawTx("address", "addressPrivateKey", createRawTokenFinishTx, 300 + "", 0);
-	        String submitTransaction = client.submitTransaction(signRawTx);
-	        System.out.println(submitTransaction);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+    public void createTokenFinish() throws Exception {
+        String createRawTokenFinishTx = client.createRawTokenFinishTx((long) 1e8, "LGS", "address");
+        String signRawTx = client.signRawTx("address", "addressPrivateKey", createRawTokenFinishTx, 300 + "", 0);
+        String submitTransaction = client.submitTransaction(signRawTx);
+        System.out.println(submitTransaction);
     }
 
     /**
+     * @throws Exception 
      * @description 合约转为地址
      */
     @Test
-    public void convertExecertoAddr() {
-        String address;
-        try {
-			address = client.convertExectoAddr("user.writer");
-	        System.out.println(address);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    public void convertExecertoAddr() throws Exception {
+        String address  = client.convertExectoAddr("token");
+        System.out.println(address);
     }
 
 
     /**
+     * @throws IOException 
      * @description 本地构造上链交易数据。数据大手续费越高,推荐压缩之后再上链。
      */
     @Test
-    public void uploadDateToChain() {
+    public void uploadDateToChain() throws IOException {
         String transactionHash = TransactionUtil.createTx(withHoldPrivateKey, "user.p.xxchain.coins", "content",
                 TransactionUtil.DEFAULT_FEE);
         // 创建代扣交易 创建交易上链需要消耗手续费
@@ -460,10 +438,11 @@ public class RpcClientTest {
     
     
     /**
+     * @throws IOException 
      * @description 本地构造平行链主代币转账交易
      */
     @Test
-    public void createCoinTransferTxPara() {
+    public void createCoinTransferTxPara() throws IOException {
     	// 转账说明
         String note = "转账说明";
         // 主代币则为"",其他为token名
@@ -494,10 +473,11 @@ public class RpcClientTest {
     }
 
     /**
+     * @throws IOException 
      * @description 通过节点构造token/主代币转账
      */
     @Test
-    public void transferToken() {
+    public void transferToken() throws IOException {
         String toAddr = "to address";
         String tokenSymBol = "tokenSymbol";
         String fromAddr = "from address";
@@ -534,10 +514,11 @@ public class RpcClientTest {
     }
         
 	/**
-	* @description 撤销预创建的token
+	* @throws IOException 
+	 * @description 撤销预创建的token
 	*/
 	@Test
-	public void revokePrecreateToken(){
+	public void revokePrecreateToken() throws IOException{
 	   String symbol = "COINSDEVX";
 	   String owner = "1EHWKLEixvfanTHWmnF7mYMuDDXTCorZd7";
 	   String privateKey = "55637b77b193f2c60c6c3f95d8a5d3a98d15e2d42bf0aeae8e975fc54035e2f4";
@@ -551,7 +532,29 @@ public class RpcClientTest {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+	}
+	
+	
+	/**
+	 * 接口QPS测试(单线程)
+	 * @throws IOException 
+	 */
+	@Test
+	public void qpsTest() throws IOException {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
+    	System.out.println(df.format(System.currentTimeMillis())); 
+		
+        String hash = "0x441e91ff13f28fe104d66db4308ab12652868eaf8a0011dec2059a4be98bdfb3";
+        for (int i = 0; i <= 50000; i++) {
 
+            client.queryTx(hash);
+           // System.out.println(queryTransaction1);
+            if (i%1000 == 0) {
+            	System.out.println(i);
+            	System.out.println(df.format(System.currentTimeMillis())); 
+            }
+        }
+        
 	}
 	
 //	/**

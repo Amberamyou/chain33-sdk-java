@@ -9,6 +9,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -49,10 +50,10 @@ public class PreOwner {
      * 代理重加密秘钥分片存储到代理重加密服务器，同时数据加密上链存储
      * @param numSplit
      * @param threshold
-     * @throws Exception 
+     * @throws IOException 
      */
     @Test
-    public void preEncrypt() throws Exception {
+    public void preEncrypt() throws IOException {
         AccountInfo alice = new AccountInfo();
         alice.setPrivateKey(OwnerPrivateKey);
         alice.setPublicKey(TransactionUtil.getHexPubKeyFromPrivKey(OwnerPrivateKey));
@@ -96,9 +97,9 @@ public class PreOwner {
      * 
      * @param encryptKey
      * @param alice
-     * @throws Exception 
+     * @throws IOException 
      */
-    private void uploadKey(EncryptKey encryptKey, AccountInfo alice, String pubkey) throws Exception {
+    private void uploadKey(EncryptKey encryptKey, AccountInfo alice, String pubkey) throws IOException {
         // 生成重加密密钥分片
         KeyFrag[] kFrags = new KeyFrag[numSplit];
         try {

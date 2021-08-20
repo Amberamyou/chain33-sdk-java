@@ -1,5 +1,6 @@
 package cn.chain33.javasdk.model.paraTest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,14 @@ public class CoinsTransParaTest {
 	
     /**
      * 
-     * @throws Exception 
+     * @throws InterruptedException 
+     * @throws IOException 
      * @description 本地签名代扣交易组，调用createNoBlance之后再将返回的数据解析,签名，发送交易
      * 代扣交易主要用在平行链的场合，主链上的交易不需要关注此实现
      *
      */
     @Test
-    public void transferCoins() throws Exception {
+    public void transferCoins() throws InterruptedException, IOException {
     	// 转账说明
         String note = "转账说明";
         // 主代币则为"",其他为token名
@@ -81,12 +83,12 @@ public class CoinsTransParaTest {
     
     /**
      * 
-     * @throws Exception 
+     * @throws IOException 
      * @description 查询coins余额
      *
      */
     @Test
-    public void getTokenBalace() throws Exception {
+    public void getTokenBalace() throws IOException {
         // 执行器名称
         String execer = paraName + "coins";
         

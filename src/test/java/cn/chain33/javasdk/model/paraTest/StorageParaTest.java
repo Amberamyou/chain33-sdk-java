@@ -1,5 +1,6 @@
 package cn.chain33.javasdk.model.paraTest;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -34,10 +35,11 @@ public class StorageParaTest {
      * 代扣内容存证，在需要缴纳手续费的情况下，可以采用代扣的方式， 实际的存证交易不需要缴纳手续费，全部通过代扣交易来缴纳手续费
      * 
      * 代扣交易模型
+     * @throws IOException 
      * @throws Exception 
      */
 	@Test
-	public void contentStoreNobalance() throws Exception {
+	public void contentStoreNobalance() throws InterruptedException, IOException {
 	    // 存证智能合约的名称，代扣情况下，要带上平行链前缀
 	    String execer = "user.p.evm.storage";
 	    // 实际交易签名用的私钥
@@ -71,10 +73,11 @@ public class StorageParaTest {
 	
 	/**
 	 * 哈希存证模型，推荐使用sha256哈希，限制256位得摘要值
-	 * @throws Exception 
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
 	@Test
-	public void hashStoreNobalance() throws Exception {
+	public void hashStoreNobalance() throws InterruptedException, IOException {
 		// 存证智能合约的名称
 	    String execer = "user.p.evm.storage";
 		// 签名用的私钥
@@ -111,10 +114,11 @@ public class StorageParaTest {
 	
 	 /**
      * 链接存证模型
-	 * @throws Exception 
+	 * @throws InterruptedException 
+	 * @throws IOException 
      */
 	@Test
-	public void hashAndLinkStoreNobalance() throws Exception {
+	public void hashAndLinkStoreNobalance() throws InterruptedException, IOException {
 		// 存证智能合约的名称
 		String execer = "user.p.evm.storage";
 		String contranctAddress = client.convertExectoAddr(execer);
@@ -203,10 +207,10 @@ public class StorageParaTest {
 	
 	/**
 	 * 根据hash查询存证结果
-	 * @throws Exception 
+	 * @throws IOException 
 	 */
 	@Test
-	public void queryStorage() throws Exception {
+	public void queryStorage() throws IOException {
 		// contentStore
 		JSONObject resultJson = client.queryStorage("0xcc4b820c86d00019e2f0c490bb6a9bcd46812321fe6d38c0b7214421d12fed29");
 		
